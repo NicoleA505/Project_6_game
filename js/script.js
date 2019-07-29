@@ -1,4 +1,3 @@
-
 /*
 STep 1 create grid
 step 2 place rocks/walls 12-9 squares, unable to be on the tile
@@ -29,6 +28,16 @@ gridCreator();
 
 function randomNum(){
   return Math.floor(Math.random() * (11 - 1) + 1);
+}
+
+//Generates a random color.
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
 }
 
 //Creates a barrier at a random square
@@ -84,8 +93,8 @@ function createWeapon() {
   if (isTaken || hasWeapon){
     return createWeapon();
   } else {
-    //ELSE add a class of barrier to this square
-      $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass('weapon taken')
+    //ELSE add a class of 'barrier' and 'taken' to this square and also adds a random color.
+      $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass('weapon taken').css('backgroundColor', getRandomColor());
     }
 }
 createWeapon();
