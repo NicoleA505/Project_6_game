@@ -16,6 +16,19 @@ Use JS, CSS grid and flexbox
 grid is numbered, add 1-3 to the player's position.
 */
 
+//OBJECTS
+
+class Player = {
+  constructor(username, position, score, isTurn){
+    this.username = username;
+    this.position = position;
+    this.score = score;
+    this.isTurn = isTurn;
+  }
+};
+
+
+
 //Creates the grid with the class name on grid items for styles
 function gridCreator() {
   for(let d = 1; d < 11; d++){ //creates the rows
