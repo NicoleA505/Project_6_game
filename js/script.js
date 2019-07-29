@@ -6,11 +6,12 @@ step 3 randomly place 4 weapons in the grid
 step 4 place players randomly, 2 human players
 USE COLORS FIRST TO REPRESENT PLAYERS/WEAPONS
 
-get familiar with:
+NOTES:
+Get familiar with:
 CSS grid - CSS TRicks
-double for loop structure for generating the 100 tiles
-  each outer loop creates each column
-  iterate inside each column to create each row
+  double for loop structure for generating the 100 tiles
+    each outer loop creates each column
+    iterate inside each column to create each row
 
 Use JS, CSS grid and flexbox
 grid is numbered, add 1-3 to the player's position.
@@ -50,7 +51,6 @@ function createBarrier() {
     y: randomNum()
   };
   let hasBarrier = $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).hasClass("barrier");
-  console.log(hasBarrier);
   //If square with generated coordinates already has a class of barrier
   if (hasBarrier){
     return createBarrier();
@@ -59,9 +59,6 @@ function createBarrier() {
       $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass('barrier taken')
     }
 }
-
- // $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass('barrier taken');//ES6 string literal
- // $(["data-x=" + coordinates.x]["data-y=" + coordinates.y]).addClass('barrier taken');
 
 //Is a loop that takes the createBarrier() function and loops it 12 times to make 12 barriers on the grid
 function placeBarriers(){
@@ -72,22 +69,46 @@ function placeBarriers(){
 placeBarriers();
 
 function placePlayer(player){
-  console.log(player);
   let coordinates = {
     x: randomNum(),
     y: randomNum()
   };
   let isOccupied = $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).hasClass("barrier");
-  console.log(isOccupied);
   if (isOccupied){
     return placePlayer();
   } else {
     //ELSE add a class of barrier to this square
-      $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass(player).addClass(taken);
+      $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass(player).addClass("taken");
     }
 }
 placePlayer("player1");
 placePlayer("player2");
+
+//Function that places weapons:
+function createWeapon() {
+  let coordinates = {
+    x: randomNum(),
+    y: randomNum()
+  };
+  let hasWeapon = $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).hasClass("weapon");
+  let isTaken = $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).hasClass("taken");
+  console.log(isTaken, hasWeapon);
+  //If square with generated coordinates already has a class of barrier
+  if (isTaken || hasWeapon){
+    return createWeapon();
+  } else {
+    //ELSE add a class of barrier to this square
+      $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass('weapon taken')
+    }
+}
+createWeapon();
+//Is a loop that takes the createWeapon() function and loops it 4 times to place 4 weapons on the grid.
+function placeWeapon(){
+  for(let i = 0; i < 3; i++) {
+    createWeapon();
+  }
+}
+placeWeapon();
 
 
 /*GAME MECHANICS OF USER
@@ -117,3 +138,7 @@ WHEN user moves over a weapon
   IF NPC has 0 HP,
     display pop-up message saying congratulations.
 */
+
+//NOTES
+// $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass('barrier taken');//ES6 string literal
+// $(["data-x=" + coordinates.x]["data-y=" + coordinates.y]).addClass('barrier taken');

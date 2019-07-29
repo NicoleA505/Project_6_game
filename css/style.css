@@ -26,10 +26,12 @@
 .barrier{
   background-color: brown;
 }
-
 .player1 {
   background-color: black;
 }
 .player2 {
   background-color: white;
+}
+.weapon {
+  background-color: blue;
 }
