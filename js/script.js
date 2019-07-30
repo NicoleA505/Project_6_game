@@ -1,39 +1,11 @@
 /*
-STep 1 create grid
-step 2 place rocks/walls 12-9 squares, unable to be on the tile
-step 3 randomly place 4 weapons in the grid
-step 4 place players randomly, 2 human players
-USE COLORS FIRST TO REPRESENT PLAYERS/WEAPONS
-
-NOTES:
-Get familiar with:
-CSS grid - CSS TRicks
-  double for loop structure for generating the 100 tiles
-    each outer loop creates each column
-    iterate inside each column to create each row
-
-Use JS, CSS grid and flexbox
-grid is numbered, add 1-3 to the player's position.
+FUNCTIONS
 */
-
-//OBJECTS
-
-class Player = {
-  constructor(username, position, score, isTurn){
-    this.username = username;
-    this.position = position;
-    this.score = score;
-    this.isTurn = isTurn;
-  }
-};
-
-
-
 //Creates the grid with the class name on grid items for styles
 function gridCreator() {
-  for(let d = 1; d < 11; d++){ //creates the rows
-    for(let e = 1; e < 11; e++){ //creates the columns
-      $('.grid-container').append('<div class="grid-item" data-x="'+d+'" data-y="'+e+'">square '+d+', '+e+'</div>')
+  for(let x = 1; x < 11; x++){ //creates the rows
+    for(let y = 1; y < 11; y++){ //creates the columns
+      $('.grid-container').append('<div class="grid-item" data-x="'+x+'" data-y="'+y+'">square '+x+', '+y+'</div>')
     }
   }
 }
@@ -52,7 +24,6 @@ function getRandomColor() {
   }
   return color;
 }
-
 //Creates a barrier at a random square
 function createBarrier() {
   let coordinates = {
@@ -68,7 +39,6 @@ function createBarrier() {
       $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass('barrier taken')
     }
 }
-
 //Is a loop that takes the createBarrier() function and loops it 12 times to make 12 barriers on the grid
 function placeBarriers(){
   for(let i = 0; i < 12; i++) {
@@ -111,6 +81,7 @@ function createWeapon() {
     }
 }
 createWeapon();
+
 //Is a loop that takes the createWeapon() function and loops it 4 times to place 4 weapons on the grid.
 function placeWeapon(){
   for(let i = 0; i < 3; i++) {
@@ -119,6 +90,59 @@ function placeWeapon(){
 }
 placeWeapon();
 
+
+const playerUsername = prompt("Pick a username");
+const playerHealth = 100;
+
+
+/*
+OBJECTS
+*/
+class Player {
+  constructor(x, y, username, health, isTurn){
+    this.x = x;
+    this.y = y;
+    this.username = username;
+    this.health = health;
+    this.isTurn = isTurn;
+  }
+};
+//How to incorporate isTurn below as a parameter in the new player objects.
+const player1 = new Player ($('.player1').attr('data-x'), $('.player1').attr('data-y'), playerUsername, playerHealth);
+const player2 = new Player ($('.player2').attr('data-x'), $('.player2').attr('data-y'), "NPC", playerHealth);
+
+class Weapon {
+  constructor(x, y, type, damagePossible, isPickedUp){
+    this.x = x;
+    this.y = y;
+    this.type = type;
+    this.damagePossible = damagePossible;
+    this.isPickedUp = isPickedUp;
+  }
+};
+//How to incorporate x/y and the isPickedUp below as parameters in the new objects.
+// const weapon1 = new Weapon (x, y, "sword", 30, );
+// const weapon2 = new Weapon (x, y, "ax", 20, );
+// const weapon3 = new Weapon (x, y, "bow and arrow", 15, );
+// const weapon4 = new Weapon (x, y, "spear", 10, );
+
+
+/*
+EVENT LISTENERS
+*/
+
+//Will not listen to the x < x+3 portion
+$('.grid-container').on('click', '.grid-item', function(event) {
+    let x = $(event.target).attr("data-x");
+    console.log(x);
+    let y = $(event.target).attr("data-y");
+    if( x < x + 3 && $(event.target).attr('class') !== 'taken') {
+      $('.player1').removeClass('player1', 'taken');
+      $(event.target).addClass('player1', 'taken');
+    } else {
+      alert("You can't move that many spaces!");
+    }
+  });
 
 /*GAME MECHANICS OF USER
 WHEN it is the user's turn
