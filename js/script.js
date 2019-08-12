@@ -1,3 +1,55 @@
+// const player1Username = prompt("Pick a username");
+// const player2Username = prompt("Pick a username");
+
+/*
+OBJECTS
+*/
+
+let player1 = {
+  name: "player1",
+  health: 100,
+  position: {
+    x: 0,
+    y: 0,
+  },
+  weaponType: "",
+};
+
+let player2 = {
+  name: "player2",
+  health: 100,
+  position: {
+    x: 0,
+    y: 0,
+  },
+  weaponType: "",
+};
+
+let activePlayer = player1;
+
+const weapons = [
+  {
+    name:"sword",
+    power: "20",
+    img:"",
+  },
+  {
+    name:"ax",
+    power: "15",
+    img:"",
+  },
+  {
+    name:"bow and arrow",
+    power: "30",
+    img:"",
+  },
+  {
+    name:"spear",
+    power: "25",
+    img:"",
+  }
+];
+
 /*
 FUNCTIONS
 */
@@ -57,92 +109,105 @@ function placePlayer(player){
     return placePlayer();
   } else {
     //ELSE add a class of barrier to this square
-      $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass(player).addClass("taken");
+      $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass(player["name"]).addClass("taken");
+      player["position"].x = coordinates.x;
+      player["position"].y = coordinates.y;
     }
 }
-placePlayer("player1");
-placePlayer("player2");
+placePlayer(player1);
+placePlayer(player2);
 
 //Function that places weapons:
-function createWeapon() {
+function createWeapon(weapon) {
   let coordinates = {
     x: randomNum(),
     y: randomNum()
   };
   let hasWeapon = $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).hasClass("weapon");
   let isTaken = $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).hasClass("taken");
-  console.log(isTaken, hasWeapon);
   //If square with generated coordinates already has a class of barrier
   if (isTaken || hasWeapon){
     return createWeapon();
   } else {
     //ELSE add a class of 'barrier' and 'taken' to this square and also adds a random color.
-      $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass('weapon taken').css('backgroundColor', getRandomColor());
+      $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass("sword").addClass('taken').css('backgroundColor', getRandomColor());
     }
 }
-createWeapon();
 
 //Is a loop that takes the createWeapon() function and loops it 4 times to place 4 weapons on the grid.
 function placeWeapon(){
-  for(let i = 0; i < 3; i++) {
-    createWeapon();
+  for(let i = 0; i < weapons.length; i++) {
+    createWeapon(weapons[i].name);
   }
 }
 placeWeapon();
 
-
-const playerUsername = prompt("Pick a username");
-const playerHealth = 100;
-
-
-/*
-OBJECTS
-*/
-class Player {
-  constructor(x, y, username, health, isTurn){
-    this.x = x;
-    this.y = y;
-    this.username = username;
-    this.health = health;
-    this.isTurn = isTurn;
-  }
+//Function to check if the player can move
+function canPlayerMove() {
+  let isWithinThreeSpaces = false;
+  let activePlayerPositionX = activePlayer.position.x;
+  let activePlayerPositionY = activePlayer.position.y;
+  let activePlayerPositionYAddThree = activePlayerPositionY + 3;
+  let activePlayerPositionXAddThree = activePlayerPositionX + 3;
+  let squarePositionX = $(this).attr('data-x');
+  let squarePositionY = $(this).attr('data-y');
+  //Function: did they click within 3 spaces?
+  function isThreeSpaces(){
+    // If player clicked a spot with x < x+3 or y < y+3 (TRUE/FALSE), move player along the x or y axis to that grid item.
+    if(squarePositionY <= activePlayerPositionYAddThree && squarePositionX <= activePlayerPositionXAddThree){
+      isWithinThreeSpaces = true;
+      console.log("This is within 3 spaces");
+      $('this').addClass('player1');
+    } else { // Else alert("You can only move 3 spaces at a time")
+      alert("You can only move 3 spaces at a time!");
+    }
+  };
+  isThreeSpaces();
+  //Function to check if the spot has a barriers
+  function isThereABarrier(){
+    //If event.target has a class of barrier, alert("Can't move there! There's a barrier")
+    if(event.target.className == "barrier"){
+      alert("You can't move there! There is a barrier in the way!");
+    };
+    //Else move player
+  };
+  isThereABarrier();
 };
-//How to incorporate isTurn below as a parameter in the new player objects.
-const player1 = new Player ($('.player1').attr('data-x'), $('.player1').attr('data-y'), playerUsername, playerHealth);
-const player2 = new Player ($('.player2').attr('data-x'), $('.player2').attr('data-y'), "NPC", playerHealth);
 
-class Weapon {
-  constructor(x, y, type, damagePossible, isPickedUp){
-    this.x = x;
-    this.y = y;
-    this.type = type;
-    this.damagePossible = damagePossible;
-    this.isPickedUp = isPickedUp;
-  }
-};
-//How to incorporate x/y and the isPickedUp below as parameters in the new objects.
-// const weapon1 = new Weapon (x, y, "sword", 30, );
-// const weapon2 = new Weapon (x, y, "ax", 20, );
-// const weapon3 = new Weapon (x, y, "bow and arrow", 15, );
-// const weapon4 = new Weapon (x, y, "spear", 10, );
-
+//Function to move player
 
 /*
 EVENT LISTENERS
 */
 
-//Will not listen to the x < x+3 portion
 $('.grid-container').on('click', '.grid-item', function(event) {
-    let x = $(event.target).attr("data-x");
-    console.log(x);
-    let y = $(event.target).attr("data-y");
-    if( x < x + 3 && $(event.target).attr('class') !== 'taken') {
-      $('.player1').removeClass('player1', 'taken');
-      $(event.target).addClass('player1', 'taken');
-    } else {
-      alert("You can't move that many spaces!");
+    let tempArray = [];
+    let activePlayerPositionX = activePlayer.position.x;
+    let activePlayerPositionY = activePlayer.position.y;
+    let squarePositionX = $(this).attr('data-x');
+    let squarePositionY = $(this).attr('data-y');
+    let position = {
+      x: 0,
+      y: 0,
+    };
+    //If player's x position = square's x position then console.log("moving across y")
+    if( activePlayerPositionX == squarePositionX ) {
+      console.log("moving across y");
+      for(let i = activePlayerPositionY; i = squarePositionY; i++){
+      position.x = activePlayerPositionX;
+      position.y = i + 1; //i-1 for down/left
+      tempArray.push(position);
+      }
+    //If player's y position = square's y position then console.log("moving across x")
+    } else if (activePlayerPositionY == squarePositionY) {
+      console.log("moving across x");
+      position.y = activePlayerPositionY;
     }
+    console.log(tempArray);
+    canPlayerMove();
   });
+
+
 
 /*GAME MECHANICS OF USER
 WHEN it is the user's turn
@@ -171,6 +236,36 @@ WHEN user moves over a weapon
   IF NPC has 0 HP,
     display pop-up message saying congratulations.
 */
+
+
+// class Player {
+//   constructor(x, y, username, health, isTurn){
+//     this.x = x;
+//     this.y = y;
+//     this.username = username;
+//     this.health = health;
+//     this.isTurn = isTurn;
+//   }
+// };
+// //How to incorporate isTurn below as a parameter in the new player objects.
+// const player1 = new Player ($('.player1').attr('data-x'), $('.player1').attr('data-y'), playerUsername, playerHealth);
+// const player2 = new Player ($('.player2').attr('data-x'), $('.player2').attr('data-y'), "NPC", playerHealth);
+//
+// class Weapon {
+//   constructor(x, y, type, damagePossible, isPickedUp){
+//     this.x = x;
+//     this.y = y;
+//     this.type = type;
+//     this.damagePossible = damagePossible;
+//     this.isPickedUp = isPickedUp;
+//   }
+// };
+// How to incorporate x/y and the isPickedUp below as parameters in the new objects.
+// const weapon1 = new Weapon (x, y, "sword", 30, );
+// const weapon2 = new Weapon (x, y, "ax", 20, );
+// const weapon3 = new Weapon (x, y, "bow and arrow", 15, );
+// const weapon4 = new Weapon (x, y, "spear", 10, );
+
 
 //NOTES
 // $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass('barrier taken');//ES6 string literal
