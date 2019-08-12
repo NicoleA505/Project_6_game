@@ -9,8 +9,8 @@ let player1 = {
   name: "player1",
   health: 100,
   position: {
-    x: 0,
-    y: 0,
+    x:0,
+    y:0,
   },
   weaponType: "",
 };
@@ -144,9 +144,8 @@ placeWeapon();
 
 //Function to check if the player can move
 function canPlayerMove() {
-  let isWithinThreeSpaces = false;
-  let activePlayerPositionX = activePlayer.position.x;
-  let activePlayerPositionY = activePlayer.position.y;
+  let activePlayerPositionX = parseInt($('.player1').attr('data-x'));
+  let activePlayerPositionY = parseInt($('.player1').attr('data-y'));
   let activePlayerPositionYAddThree = activePlayerPositionY + 3;
   let activePlayerPositionXAddThree = activePlayerPositionX + 3;
   let squarePositionX = $(this).attr('data-x');
@@ -154,24 +153,31 @@ function canPlayerMove() {
   //Function: did they click within 3 spaces?
   function isThreeSpaces(){
     // If player clicked a spot with x < x+3 or y < y+3 (TRUE/FALSE), move player along the x or y axis to that grid item.
-    if(squarePositionY <= activePlayerPositionYAddThree && squarePositionX <= activePlayerPositionXAddThree){
-      isWithinThreeSpaces = true;
+    if(squarePositionY <= activePlayerPositionYAddThree && squarePositionX <= activePlayerPositionXAddThree) {
       console.log("This is within 3 spaces");
-      $('this').addClass('player1');
+      return true;
     } else { // Else alert("You can only move 3 spaces at a time")
       alert("You can only move 3 spaces at a time!");
+      // console.log(activePlayerPositionXAddThree);
     }
   };
-  isThreeSpaces();
   //Function to check if the spot has a barriers
   function isThereABarrier(){
     //If event.target has a class of barrier, alert("Can't move there! There's a barrier")
     if(event.target.className == "barrier"){
       alert("You can't move there! There is a barrier in the way!");
-    };
+    }
     //Else move player
+    else {
+      return false;
+    }
   };
-  isThereABarrier();
+  console.log(isThreeSpaces());
+  if(isThereABarrier() == false && isThreeSpaces() == true){
+    $(event.target).addClass('player1');
+    activePlayerPositionX = squarePositionX;
+    activePlayerPositionY = squarePositionY;
+  }
 };
 
 //Function to move player
@@ -181,29 +187,29 @@ EVENT LISTENERS
 */
 
 $('.grid-container').on('click', '.grid-item', function(event) {
-    let tempArray = [];
-    let activePlayerPositionX = activePlayer.position.x;
-    let activePlayerPositionY = activePlayer.position.y;
-    let squarePositionX = $(this).attr('data-x');
-    let squarePositionY = $(this).attr('data-y');
-    let position = {
-      x: 0,
-      y: 0,
-    };
-    //If player's x position = square's x position then console.log("moving across y")
-    if( activePlayerPositionX == squarePositionX ) {
-      console.log("moving across y");
-      for(let i = activePlayerPositionY; i = squarePositionY; i++){
-      position.x = activePlayerPositionX;
-      position.y = i + 1; //i-1 for down/left
-      tempArray.push(position);
-      }
-    //If player's y position = square's y position then console.log("moving across x")
-    } else if (activePlayerPositionY == squarePositionY) {
-      console.log("moving across x");
-      position.y = activePlayerPositionY;
-    }
-    console.log(tempArray);
+    // let tempArray = [];
+    // let activePlayerPositionX = activePlayer.position.x;
+    // let activePlayerPositionY = activePlayer.position.y;
+    // let squarePositionX = $(this).attr('data-x');
+    // let squarePositionY = $(this).attr('data-y');
+    // let position = {
+    //   x: 0,
+    //   y: 0,
+    // };
+    // //If player's x position = square's x position then console.log("moving across y")
+    // if( activePlayerPositionX == squarePositionX ) {
+    //   console.log("moving across y");
+    //   for(let i = activePlayerPositionY; i = squarePositionY; i++){
+    //   position.x = activePlayerPositionX;
+    //   position.y = i + 1; //i-1 for down/left
+    //   tempArray.push(position);
+    //   }
+    // //If player's y position = square's y position then console.log("moving across x")
+    // } else if (activePlayerPositionY == squarePositionY) {
+    //   console.log("moving across x");
+    //   position.y = activePlayerPositionY;
+    // }
+    // console.log(tempArray);
     canPlayerMove();
   });
 
