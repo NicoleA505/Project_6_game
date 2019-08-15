@@ -106,9 +106,10 @@ function placePlayer(player){
   };
   let isOccupied = $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).hasClass("barrier");
   if (isOccupied){
+    console.log("Barrier in the way");
     return placePlayer();
   } else {
-    //ELSE add a class of barrier to this square
+    //ELSE add a class of player1 or 2 to this square
       $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass(player["name"]).addClass("taken");
       player["position"].x = coordinates.x;
       player["position"].y = coordinates.y;
@@ -143,50 +144,57 @@ function placeWeapon(){
 placeWeapon();
 
 //Function to check if the player can move
-function canPlayerMove() {
-  let activePlayerPositionX = parseInt($('.player1').attr('data-x'));
-  let activePlayerPositionY = parseInt($('.player1').attr('data-y'));
-  let activePlayerPositionYAddThree = activePlayerPositionY + 3;
-  let activePlayerPositionXAddThree = activePlayerPositionX + 3;
-  let squarePositionX = $(this).attr('data-x');
-  let squarePositionY = $(this).attr('data-y');
+function canPlayerMove(event) {
+  let activePlayerPositionX = activePlayer.position.x;
+  let activePlayerPositionY = activePlayer.position.y;
+  let squarePositionX = $(event.target).attr('data-x');
+  let squarePositionY = $(event.target).attr('data-y');
+
   //Function: did they click within 3 spaces?
-  function isThreeSpaces(){
+  function isWithin3Spaces() {
     // If player clicked a spot with x < x+3 or y < y+3 (TRUE/FALSE), move player along the x or y axis to that grid item.
-    if(squarePositionY <= activePlayerPositionYAddThree && squarePositionX <= activePlayerPositionXAddThree) {
-      console.log("This is within 3 spaces");
+    if (squarePositionX <= activePlayerPositionX + 3 && squarePositionX >= activePlayerPositionX - 3 && squarePositionY == activePlayerPositionY) {
+      console.log("It's within 3 spaces on the X scale!");
       return true;
-    } else { // Else alert("You can only move 3 spaces at a time")
-      alert("You can only move 3 spaces at a time!");
-      // console.log(activePlayerPositionXAddThree);
+    } else if (squarePositionY <= activePlayerPositionY + 3 && squarePositionY >= activePlayerPositionY - 3 && squarePositionX == activePlayerPositionX ) {
+      console.log("It's within 3 spaces on the Y scale!");
+      return true;
+    } else {
+    // Else alert("You can only move 3 spaces at a time")
+      alert("You can't move more than 3 spaces away and you can't move diagonally");
     }
-  };
+  }
   //Function to check if the spot has a barriers
-  function isThereABarrier(){
+  function isThereABarrier() {
     //If event.target has a class of barrier, alert("Can't move there! There's a barrier")
-    if(event.target.className == "barrier"){
-      alert("You can't move there! There is a barrier in the way!");
+    if($(this).className == "barrier") {
+      alert("Can't move there! There's a barrier");
+      return true;
     }
     //Else move player
     else {
       return false;
     }
-  };
-  console.log(isThreeSpaces());
-  if(isThereABarrier() == false && isThreeSpaces() == true){
-    $(event.target).addClass('player1');
-    activePlayerPositionX = squarePositionX;
-    activePlayerPositionY = squarePositionY;
   }
-};
+  isWithin3Spaces();
+  isThereABarrier();
 
 //Function to move player
+if (isThereABarrier() == false && isWithin3Spaces() == true){
+      $('.player1').removeClass('player1');
+      activePlayerPositionX = squarePositionX;
+      activePlayerPositionY = squarePositionY;
+      $(event.target).addClass('player1');
+      console.log("X: " + activePlayerPositionX + ", " + "Y: " + activePlayerPositionY);
+    }
+}
+
 
 /*
 EVENT LISTENERS
 */
 
-$('.grid-container').on('click', '.grid-item', function(event) {
+$('.grid-container').on('click', '.grid-item', function() {
     // let tempArray = [];
     // let activePlayerPositionX = activePlayer.position.x;
     // let activePlayerPositionY = activePlayer.position.y;
@@ -210,9 +218,8 @@ $('.grid-container').on('click', '.grid-item', function(event) {
     //   position.y = activePlayerPositionY;
     // }
     // console.log(tempArray);
-    canPlayerMove();
+    canPlayerMove(event);
   });
-
 
 
 /*GAME MECHANICS OF USER
