@@ -128,10 +128,10 @@ function createWeapon(weapon) {
   let isTaken = $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).hasClass("taken");
   //If square with generated coordinates already has a class of barrier
   if (isTaken || hasWeapon){
-    return createWeapon();
+    return createWeapon(weapon);
   } else {
-    //ELSE add a class of 'barrier' and 'taken' to $this square and also adds a random color.
-      $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass("sword").addClass('taken').css('backgroundColor', getRandomColor());
+    //ELSE add a class of 'weapon' and 'taken' to $this square and also adds a random color.
+      $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass("weapon").addClass('taken').css('backgroundColor', getRandomColor());
     }
 }
 
@@ -215,19 +215,22 @@ $(function() {
       if(activePlayerPositionY < squarePositionY){
         console.log("It's going into the moving right if statement!");
         for (let i = activePlayerPositionY; i < squarePositionY; i++) {
+          console.log("It'a going into the for loop!");
           position.x = activePlayerPositionX;
           position.y = i + 1; // +1 for moving right
           tempArray.push(position);
-          console.log("tempArray: ", tempArray);
+          console.log(position);
         }
+        console.log("tempArray: ", tempArray);
       } else if (activePlayerPositionY > squarePositionY) {
-        console.log("It's going into the moving left if statement!");
-          for (let i = activePlayerPositionY; i < squarePositionY; i--) {
+          console.log("It's going into the moving left if statement!");
+          for (let i = squarePositionY; i < activePlayerPositionY; i++) {
+            console.log("It'a going into the for loop!");
             position.x = activePlayerPositionX;
             position.y = i - 1; // -1 for moving left
             tempArray.push(position);
-            console.log("tempArray: ", tempArray);
           }
+          console.log("tempArray: ", tempArray);
       }
     //If player's y position = square's y position then console.log("moving across x")
     } else if (activePlayerPositionY === squarePositionY) {
@@ -235,22 +238,24 @@ $(function() {
         if(activePlayerPositionX < squarePositionX) {
           console.log("It's going into the moving down if statement!");
           for (let i = activePlayerPositionX; i < squarePositionX; i++) {
+            console.log("It'a going into the for loop!");
             position.x = i + 1; // +1 for moving down
             position.y = activePlayerPositionY;
             tempArray.push(position);
-            console.log("tempArray: ", tempArray);
           }
+          console.log("tempArray: ", tempArray);
         } else if (activePlayerPositionX > squarePositionX) {
-          console.log("It's going into the moving up if statement!");
-          for (let i = activePlayerPositionX; i < squarePositionX; i--) {
-            position.x = i - 1; // -1 for moving up
-            position.y = activePlayerPositionY;
-            tempArray.push(position);
+            console.log("It's going into the moving up if statement!");
+            for (let i = squarePositionX; i < activePlayerPositionX; i++) {
+              console.log("It'a going into the for loop!");
+              position.x = i - 1; // -1 for moving up
+              position.y = activePlayerPositionY;
+              tempArray.push(position);
+            }
             console.log("tempArray: ", tempArray);
-          }
         }
     };
-    console.log("tempArray: ", tempArray);
+    // console.log("tempArray: ", tempArray);
     let $this = event.target;
     canPlayerMove($this);
   });
