@@ -106,7 +106,7 @@ function placePlayer(player){
   };
   let isOccupied = $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).hasClass("barrier");
   if (isOccupied){
-    console.log("Barrier in the way");
+    console.log("Barrier in the way of placing player");
     return placePlayer(player);
   } else {
     //ELSE add a class of player1 or 2 to $this square
