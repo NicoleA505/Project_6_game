@@ -205,14 +205,15 @@ $(function() {
     let activePlayerPositionY = activePlayer.position.y;
     let squarePositionX = parseInt($(event.target).attr('data-x'));
     let squarePositionY = parseInt($(event.target).attr('data-y'));
-    let position = {
-      x: 0,
-      y: 0,
-    };
+
     //If player's x position = square's x position then console.log("moving across y")
     if( activePlayerPositionX === squarePositionX ) {
       console.log("moving across y");
       if(activePlayerPositionY < squarePositionY){
+        let position = {
+          x: 0,
+          y: 0,
+        };
         console.log("It's going into the moving right if statement!");
         for (let i = activePlayerPositionY; i < squarePositionY; i++) {
           console.log("It'a going into the for loop!");
@@ -223,6 +224,10 @@ $(function() {
         }
         console.log("tempArray: ", tempArray);
       } else if (activePlayerPositionY > squarePositionY) {
+          let position = {
+            x: 0,
+            y: 0,
+          };
           console.log("It's going into the moving left if statement!");
           for (let i = squarePositionY; i < activePlayerPositionY; i++) {
             console.log("It'a going into the for loop!");
@@ -236,6 +241,10 @@ $(function() {
     } else if (activePlayerPositionY === squarePositionY) {
         console.log("moving across x");
         if(activePlayerPositionX < squarePositionX) {
+          let position = {
+            x: 0,
+            y: 0,
+          };
           console.log("It's going into the moving down if statement!");
           for (let i = activePlayerPositionX; i < squarePositionX; i++) {
             console.log("It'a going into the for loop!");
@@ -245,6 +254,10 @@ $(function() {
           }
           console.log("tempArray: ", tempArray);
         } else if (activePlayerPositionX > squarePositionX) {
+            let position = {
+              x: 0,
+              y: 0,
+            };
             console.log("It's going into the moving up if statement!");
             for (let i = squarePositionX; i < activePlayerPositionX; i++) {
               console.log("It'a going into the for loop!");
