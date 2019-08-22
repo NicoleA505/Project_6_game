@@ -205,35 +205,31 @@ $(function() {
     let activePlayerPositionY = activePlayer.position.y;
     let squarePositionX = parseInt($(event.target).attr('data-x'));
     let squarePositionY = parseInt($(event.target).attr('data-y'));
+    let position = {};
 
     //If player's x position = square's x position then console.log("moving across y")
     if( activePlayerPositionX === squarePositionX ) {
       console.log("moving across y");
       if(activePlayerPositionY < squarePositionY){
-        let position = {
-          x: 0,
-          y: 0,
-        };
         console.log("It's going into the moving right if statement!");
         for (let i = activePlayerPositionY; i < squarePositionY; i++) {
+          let position = {};
           console.log("It'a going into the for loop!");
           position.x = activePlayerPositionX;
           position.y = i + 1; // +1 for moving right
           tempArray.push(position);
-          console.log(position);
+          console.log("Position: ", position);
         }
         console.log("tempArray: ", tempArray);
       } else if (activePlayerPositionY > squarePositionY) {
-          let position = {
-            x: 0,
-            y: 0,
-          };
           console.log("It's going into the moving left if statement!");
-          for (let i = squarePositionY; i < activePlayerPositionY; i++) {
+          for (let i = activePlayerPositionY; i > squarePositionY; i--) {
+            let position = {};
             console.log("It'a going into the for loop!");
             position.x = activePlayerPositionX;
             position.y = i - 1; // -1 for moving left
             tempArray.push(position);
+            console.log("Position: ", position);
           }
           console.log("tempArray: ", tempArray);
       }
@@ -241,29 +237,25 @@ $(function() {
     } else if (activePlayerPositionY === squarePositionY) {
         console.log("moving across x");
         if(activePlayerPositionX < squarePositionX) {
-          let position = {
-            x: 0,
-            y: 0,
-          };
           console.log("It's going into the moving down if statement!");
           for (let i = activePlayerPositionX; i < squarePositionX; i++) {
+            let position = {};
             console.log("It'a going into the for loop!");
             position.x = i + 1; // +1 for moving down
             position.y = activePlayerPositionY;
             tempArray.push(position);
+            console.log("Position: ", position);
           }
           console.log("tempArray: ", tempArray);
         } else if (activePlayerPositionX > squarePositionX) {
-            let position = {
-              x: 0,
-              y: 0,
-            };
             console.log("It's going into the moving up if statement!");
             for (let i = squarePositionX; i < activePlayerPositionX; i++) {
+              let position = {};
               console.log("It'a going into the for loop!");
-              position.x = i - 1; // -1 for moving up
+              position.x = i + 1; // -1 for moving up
               position.y = activePlayerPositionY;
               tempArray.push(position);
+              console.log("Position: ", position);
             }
             console.log("tempArray: ", tempArray);
         }
