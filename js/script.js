@@ -147,7 +147,7 @@ placeWeapon();
 function canPlayerMove($this) {
   let within3Spaces = isWithin3Spaces($this);
   let thereABarrier = isThereABarrier($this);
-  console.log("Is it within 3 spaces?: ", within3Spaces, "Is there a barrier?: ", thereABarrier);
+  // console.log("Is it within 3 spaces?: ", within3Spaces, "Is there a barrier?: ", thereABarrier);
 //Function to move player
 if (thereABarrier === false && within3Spaces === true){
       $('.player1').removeClass('player1');
@@ -169,10 +169,10 @@ function isWithin3Spaces($this) {
 
   // If player clicked a spot with x < x+3 or y < y+3 (TRUE/FALSE), move player along the x or y axis to that grid item.
   if (positionXDiff <= 3 && squarePositionY == activePlayerPositionY) {
-    console.log("It's within 3 spaces on the X scale!");
+    // console.log("It's within 3 spaces on the X scale!");
     return true;
   } else if (positionYDiff <= 3 && squarePositionX == activePlayerPositionX ) {
-    console.log("It's within 3 spaces on the Y scale!");
+    // console.log("It's within 3 spaces on the Y scale!");
     return true;
   } else {
   // Else alert("You can only move 3 spaces at a time")
@@ -183,9 +183,8 @@ function isWithin3Spaces($this) {
 function isThereABarrier($this) {
   //If event.target has a class of barrier, alert("Can't move there! There's a barrier")
   let yesBarrier = $($this).hasClass("barrier");
-  console.log("Is there a barrier?: ", yesBarrier);
+  // console.log("Is there a barrier?: ", yesBarrier);
   if (yesBarrier) {
-    console.log("if statement");
     alert("Can't move there! There's a barrier");
     return true;
   }
@@ -195,11 +194,31 @@ function isThereABarrier($this) {
   }
 }
 
+function barrierCheck(array) {
+  let barriers = [];
+  $('.barrier').each(function() {
+    let barrierCoordinates = {};
+    barrierCoordinates.x = $(this).data('x');
+    barrierCoordinates.y = $(this).data('y');
+    barriers.push(barrierCoordinates);
+  });
+  console.log(barriers);
+  console.log(array);
+
+  for( let i = 0; i < array.length; i++){
+    if (barriers.indexOf(array[i]) !== -1) {
+      console.log("NO barriers in way");
+    } else {
+      console.log("BARRIER IN WAY");
+    }
+  }
+};
+
 /*
 EVENT LISTENERS
 */
 $(function() {
-  $('.grid-container').on('click', '.grid-item', function() {
+  $('.grid-container').on('click', 'div.grid-item', function() {
     let tempArray = [];
     let activePlayerPositionX = activePlayer.position.x;
     let activePlayerPositionY = activePlayer.position.y;
@@ -207,14 +226,14 @@ $(function() {
     let squarePositionY = parseInt($(event.target).attr('data-y'));
     let position = {};
 
+    //Check if a barrier is in the away
+    barrierCheck(tempArray);
+
     //If player's x position = square's x position then console.log("moving across y")
     if( activePlayerPositionX === squarePositionX ) {
-      console.log("moving across y");
       if(activePlayerPositionY < squarePositionY){
-        console.log("It's going into the moving right if statement!");
         for (let i = activePlayerPositionY; i < squarePositionY; i++) {
           let position = {};
-          console.log("It'a going into the for loop!");
           position.x = activePlayerPositionX;
           position.y = i + 1; // +1 for moving right
           tempArray.push(position);
@@ -222,10 +241,8 @@ $(function() {
         }
         console.log("tempArray: ", tempArray);
       } else if (activePlayerPositionY > squarePositionY) {
-          console.log("It's going into the moving left if statement!");
           for (let i = activePlayerPositionY; i > squarePositionY; i--) {
             let position = {};
-            console.log("It'a going into the for loop!");
             position.x = activePlayerPositionX;
             position.y = i - 1; // -1 for moving left
             tempArray.push(position);
@@ -235,12 +252,9 @@ $(function() {
       }
     //If player's y position = square's y position then console.log("moving across x")
     } else if (activePlayerPositionY === squarePositionY) {
-        console.log("moving across x");
         if(activePlayerPositionX < squarePositionX) {
-          console.log("It's going into the moving down if statement!");
           for (let i = activePlayerPositionX; i < squarePositionX; i++) {
             let position = {};
-            console.log("It'a going into the for loop!");
             position.x = i + 1; // +1 for moving down
             position.y = activePlayerPositionY;
             tempArray.push(position);
@@ -248,10 +262,8 @@ $(function() {
           }
           console.log("tempArray: ", tempArray);
         } else if (activePlayerPositionX > squarePositionX) {
-            console.log("It's going into the moving up if statement!");
             for (let i = squarePositionX; i < activePlayerPositionX; i++) {
               let position = {};
-              console.log("It'a going into the for loop!");
               position.x = i + 1; // -1 for moving up
               position.y = activePlayerPositionY;
               tempArray.push(position);
