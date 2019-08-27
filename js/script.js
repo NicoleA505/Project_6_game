@@ -206,10 +206,12 @@ function barrierCheck(array) {
   console.log(array);
 
   for( let i = 0; i < array.length; i++){
-    if (barriers.indexOf(array[i]) !== -1) {
+    if (barriers.indexOf(array[i])) {
       console.log("NO barriers in way");
+      return false;
     } else {
       console.log("BARRIER IN WAY");
+      return true;
     }
   }
 };
@@ -229,7 +231,9 @@ $(function() {
     //Check if a barrier is in the away
     barrierCheck(tempArray);
 
-    //If player's x position = square's x position then console.log("moving across y")
+    console.log("Click handler is working!");
+
+    //Moving across X
     if( activePlayerPositionX === squarePositionX ) {
       if(activePlayerPositionY < squarePositionY){
         for (let i = activePlayerPositionY; i < squarePositionY; i++) {
@@ -250,7 +254,7 @@ $(function() {
           }
           console.log("tempArray: ", tempArray);
       }
-    //If player's y position = square's y position then console.log("moving across x")
+      //Moving across Y
     } else if (activePlayerPositionY === squarePositionY) {
         if(activePlayerPositionX < squarePositionX) {
           for (let i = activePlayerPositionX; i < squarePositionX; i++) {
@@ -272,7 +276,6 @@ $(function() {
             console.log("tempArray: ", tempArray);
         }
     };
-    // console.log("tempArray: ", tempArray);
     let $this = event.target;
     canPlayerMove($this);
   });
