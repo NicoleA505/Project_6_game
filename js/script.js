@@ -87,7 +87,7 @@ function createBarrier() {
   if (hasBarrier){
     return createBarrier();
   } else {
-    //ELSE add a class of barrier to $this square
+    //ELSE add a class of barrier to eventTarget square
       $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass('barrier taken')
     }
 }
@@ -109,7 +109,7 @@ function placePlayer(player){
     console.log("Barrier in the way of placing player");
     return placePlayer(player);
   } else {
-    //ELSE add a class of player1 or 2 to $this square
+    //ELSE add a class of player1 or 2 to eventTarget square
       $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass(player["name"]).addClass("taken");
       player["position"].x = coordinates.x;
       player["position"].y = coordinates.y;
@@ -130,7 +130,7 @@ function createWeapon(weapon) {
   if (isTaken || hasWeapon){
     return createWeapon(weapon);
   } else {
-    //ELSE add a class of 'weapon' and 'taken' to $this square and also adds a random color.
+    //ELSE add a class of 'weapon' and 'taken' to eventTarget square and also adds a random color.
       $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass("weapon").addClass('taken').css('backgroundColor', getRandomColor());
     }
 }
@@ -143,36 +143,36 @@ function placeWeapon(){
 }
 placeWeapon();
 
-//Function to check if the player can move
-function canPlayerMove($this, tempArray) {
-  let within3Spaces = isWithin3Spaces($this);
-  let thereABarrier = isThereABarrier($this);
-  //Check if a barrier is in the spaces between
+function canPlayerMove(eventTarget, tempArray) {
+
+  let within3Spaces = isWithin3Spaces(eventTarget);
+  let thereABarrier = isThereABarrier(eventTarget);
   let barrierBetween = barrierCheck(tempArray);
-  console.log(barrierBetween);
-  // console.log("Is it within 3 spaces?: ", within3Spaces, "Is there a barrier?: ", thereABarrier);
-//Function to move player
-if (within3Spaces === true && thereABarrier === false && barrierBetween === true){
-      $('.player1').removeClass('player1');
-      activePlayer.position.x = $($this).attr('data-x');
-      activePlayer.position.y = $($this).attr('data-y');
-      $($this).addClass('player1');
-      console.log("X: " + activePlayer.position.x + ", " + "Y: " + activePlayer.position.y);
+  console.log('barrierBetween', barrierBetween);
+if(barrierBetween && within3Spaces) {
+    movePlayer(eventTarget)
     } else {
       console.log("Player cannot move");
     }
 }
 
+function movePlayer(eventTarget) {
+  $('.player1').removeClass('player1');
+  activePlayer.position.x = $(eventTarget).attr('data-x');
+  activePlayer.position.y = $(eventTarget).attr('data-y');
+  $(eventTarget).addClass('player1');
+}
+
 //Function: did they click within 3 spaces?
-function isWithin3Spaces($this) {
+function isWithin3Spaces(eventTarget) {
   let activePlayerPositionX = activePlayer.position.x;
   let activePlayerPositionY = activePlayer.position.y;
-  let squarePositionX = $($this).attr('data-x');
-  let squarePositionY = $($this).attr('data-y');
+  let squarePositionX = $(eventTarget).attr('data-x');
+  let squarePositionY = $(eventTarget).attr('data-y');
   let positionXDiff = Math.abs(activePlayerPositionX - parseInt(squarePositionX));
   let positionYDiff = Math.abs(activePlayerPositionY - parseInt(squarePositionY));
 
-  // If player clicked a spot with x < x+3 or y < y+3 (TRUE/FALSE), move player along the x or y axis to that grid item.
+
   if (positionXDiff <= 3 && squarePositionY == activePlayerPositionY) {
     // console.log("It's within 3 spaces on the X scale!");
     return true;
@@ -181,13 +181,14 @@ function isWithin3Spaces($this) {
     return true;
   } else {
   // Else alert("You can only move 3 spaces at a time")
-    alert("You can't move more than 3 spaces away and you can't move diagonally");
+    console.log("You can't move more than 3 spaces away and you can't move diagonally");
+    return false
   }
 }
 //Function to check if the spot has a barriers
-function isThereABarrier($this) {
+function isThereABarrier(eventTarget) {
   //If event.target has a class of barrier, alert("Can't move there! There's a barrier")
-  let yesBarrier = $($this).hasClass("barrier");
+  let yesBarrier = $(eventTarget).hasClass("barrier");
   // console.log("Is there a barrier?: ", yesBarrier);
   if (yesBarrier) {
     alert("Can't move there! There's a barrier");
@@ -200,54 +201,19 @@ function isThereABarrier($this) {
 }
 
 function barrierCheck(tempArray) { //return boolean
-  // console.log('tempMoveArray', tempMoveArray);
+  console.log('tempArray', tempArray);
   for(var m = 0; m < tempArray.length; m++) {
     let isSquareBlocked = $(`[data-x="${tempArray[m].x}"][data-y="${tempArray[m].y}"]`).hasClass('barrier')
-    // console.log('isSquareBlocked, if so return false to barrier check ', isSquareBlocked );
+
     if( isSquareBlocked ) {
-      alert('You can\'t jump over or onto a barrier')
+      console.log('You can\'t jump over or onto a barrier')
       return false
     }
+
   }
   return true
 }
 
-// function barrierCheck(tempArray) {
-//   for (let i = 0; i < tempArray; i++) {
-//     console.log(tempArray.length);
-//     let barrier = $(`[data-x="${tempArray[i].x}"][data-y="${tempArray[i].y}"]`).hasClass('barrier');
-//     console.log("Barrier: ", barrier);
-//     if(barrier) {
-//       console.log("False");
-//       return false; //Player can't move
-//     }
-//   }
-//   console.log("True");
-//   return true; //Player can move
-
-  // let barriers = [];
-  // $('.barrier').each(function() {
-  //   let barrierCoordinates = {};
-  //   barrierCoordinates.x = $(this).data('x');
-  //   barrierCoordinates.y = $(this).data('y');
-  //   barriers.push(barrierCoordinates);
-  // });
-  //
-  // console.log("Barrier Coordinates: ", barriers);
-  // console.log("Coordinates of passed array: ", array);
-  // console.log("Passed array length: ", array.length);
-  //
-  // for( let i = 0; i < array.length; i++){
-  //   // console.log("barriers.indexOf(array[i]): ", barriers.indexOf(array[i]));
-  //   if (barriers.x == array[i].x && barriers.y == array[i].y) {
-  //     console.log("BARRIER IN WAY");
-  //     return false;
-  //   } else {
-  //     console.log("NO barriers in way");
-  //     return true;
-  //   }
-  // }
-// };
 
 /*
 EVENT LISTENERS
@@ -272,18 +238,18 @@ $(function() {
           position.x = activePlayerPositionX;
           position.y = i + 1; // +1 for moving right
           tempArray.push(position);
-          console.log("Position: ", position);
+          // console.log("Position: ", position);
         }
-        console.log("tempArray: ", tempArray);
+        // console.log("tempArray: ", tempArray);
       } else if (activePlayerPositionY > squarePositionY) {
           for (let i = activePlayerPositionY; i > squarePositionY; i--) {
             let position = {};
             position.x = activePlayerPositionX;
             position.y = i - 1; // -1 for moving left
             tempArray.push(position);
-            console.log("Position: ", position);
+            // console.log("Position: ", position);
           }
-          console.log("tempArray: ", tempArray);
+          // console.log("tempArray: ", tempArray);
       }
       //Moving across Y
     } else if (activePlayerPositionY === squarePositionY) {
@@ -293,22 +259,24 @@ $(function() {
             position.x = i + 1; // +1 for moving down
             position.y = activePlayerPositionY;
             tempArray.push(position);
-            console.log("Position: ", position);
+            // console.log("Position: ", position);
           }
-          console.log("tempArray: ", tempArray);
+          // console.log("tempArray: ", tempArray);
         } else if (activePlayerPositionX > squarePositionX) {
             for (let i = squarePositionX; i < activePlayerPositionX; i++) {
               let position = {};
               position.x = i + 1; // -1 for moving up
               position.y = activePlayerPositionY;
               tempArray.push(position);
-              console.log("Position: ", position);
+              // console.log("Position: ", position);
             }
-            console.log("tempArray: ", tempArray);
+            // console.log("tempArray: ", tempArray);
         }
     };
-    let $this = event.target;
-    canPlayerMove($this, tempArray);
+    let eventTarget = event.target;
+    // let $this = $(this)
+    // console.log("eventTarget, $this", eventTarget, $this);
+    canPlayerMove(eventTarget, tempArray);
   });
 });
 
@@ -344,11 +312,11 @@ WHEN user moves over a weapon
 
 // class Player {
 //   constructor(x, y, username, health, isTurn){
-//     $this.x = x;
-//     $this.y = y;
-//     $this.username = username;
-//     $this.health = health;
-//     $this.isTurn = isTurn;
+//     eventTarget.x = x;
+//     eventTarget.y = y;
+//     eventTarget.username = username;
+//     eventTarget.health = health;
+//     eventTarget.isTurn = isTurn;
 //   }
 // };
 // //How to incorporate isTurn below as a parameter in the new player objects.
@@ -357,11 +325,11 @@ WHEN user moves over a weapon
 //
 // class Weapon {
 //   constructor(x, y, type, damagePossible, isPickedUp){
-//     $this.x = x;
-//     $this.y = y;
-//     $this.type = type;
-//     $this.damagePossible = damagePossible;
-//     $this.isPickedUp = isPickedUp;
+//     eventTarget.x = x;
+//     eventTarget.y = y;
+//     eventTarget.type = type;
+//     eventTarget.damagePossible = damagePossible;
+//     eventTarget.isPickedUp = isPickedUp;
 //   }
 // };
 // How to incorporate x/y and the isPickedUp below as parameters in the new objects.
