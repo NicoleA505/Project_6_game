@@ -204,13 +204,17 @@ function barrierCheck(array) {
   });
   console.log(barriers);
   console.log(array);
+  console.log(array.length);
+
+
 
   for( let i = 0; i < array.length; i++){
+    console.log(barriers.indexOf(array[i]));
     if (barriers.indexOf(array[i])) {
-      console.log("NO barriers in way");
+      console.log("BARRIER IN WAY");
       return false;
     } else {
-      console.log("BARRIER IN WAY");
+      console.log("NO barriers in way");
       return true;
     }
   }
