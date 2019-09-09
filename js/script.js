@@ -212,42 +212,13 @@ function barrierCheck(tempArray) { //return boolean
   return true
 }
 
-// function barrierCheck(tempArray) {
-//   for (let i = 0; i < tempArray; i++) {
-//     console.log(tempArray.length);
-//     let barrier = $(`[data-x="${tempArray[i].x}"][data-y="${tempArray[i].y}"]`).hasClass('barrier');
-//     console.log("Barrier: ", barrier);
-//     if(barrier) {
-//       console.log("False");
-//       return false; //Player can't move
-//     }
-//   }
-//   console.log("True");
-//   return true; //Player can move
-
-  // let barriers = [];
-  // $('.barrier').each(function() {
-  //   let barrierCoordinates = {};
-  //   barrierCoordinates.x = $(this).data('x');
-  //   barrierCoordinates.y = $(this).data('y');
-  //   barriers.push(barrierCoordinates);
-  // });
-  //
-  // console.log("Barrier Coordinates: ", barriers);
-  // console.log("Coordinates of passed array: ", array);
-  // console.log("Passed array length: ", array.length);
-  //
-  // for( let i = 0; i < array.length; i++){
-  //   // console.log("barriers.indexOf(array[i]): ", barriers.indexOf(array[i]));
-  //   if (barriers.x == array[i].x && barriers.y == array[i].y) {
-  //     console.log("BARRIER IN WAY");
-  //     return false;
-  //   } else {
-  //     console.log("NO barriers in way");
-  //     return true;
-  //   }
-  // }
-// };
+function switchActivePlayer() {
+    if(activePlayer === player1) {
+      activePlayer = player2;
+    } else {
+      activePlayer = player1
+    }
+}
 
 /*
 EVENT LISTENERS
@@ -309,6 +280,10 @@ $(function() {
     };
     let $this = event.target;
     canPlayerMove($this, tempArray);
+    console.log(activePlayer);
+    switchActivePlayer();
+    console.log(activePlayer);
+
   });
 });
 
@@ -320,7 +295,7 @@ $(function() {
 //End Function
 //IF above function == true
   //Activeplayer deals damage to player 2's HP depending on what weapon they have
-  
+
 
 
 /*GAME MECHANICS OF USER
