@@ -144,17 +144,22 @@ function placeWeapon(){
 placeWeapon();
 
 //Function to check if the player can move
-function canPlayerMove($this) {
+function canPlayerMove($this, tempArray) {
   let within3Spaces = isWithin3Spaces($this);
   let thereABarrier = isThereABarrier($this);
+  //Check if a barrier is in the spaces between
+  let barrierBetween = barrierCheck(tempArray);
+  console.log(barrierBetween);
   // console.log("Is it within 3 spaces?: ", within3Spaces, "Is there a barrier?: ", thereABarrier);
 //Function to move player
-if (thereABarrier === false && within3Spaces === true){
+if (within3Spaces === true && thereABarrier === false && barrierBetween === true){
       $('.player1').removeClass('player1');
       activePlayer.position.x = $($this).attr('data-x');
       activePlayer.position.y = $($this).attr('data-y');
       $($this).addClass('player1');
       console.log("X: " + activePlayer.position.x + ", " + "Y: " + activePlayer.position.y);
+    } else {
+      console.log("Player cannot move");
     }
 }
 
@@ -194,31 +199,55 @@ function isThereABarrier($this) {
   }
 }
 
-function barrierCheck(array) {
-  let barriers = [];
-  $('.barrier').each(function() {
-    let barrierCoordinates = {};
-    barrierCoordinates.x = $(this).data('x');
-    barrierCoordinates.y = $(this).data('y');
-    barriers.push(barrierCoordinates);
-  });
-  console.log(barriers);
-  console.log(array);
-  console.log(array.length);
-
-
-
-  for( let i = 0; i < array.length; i++){
-    console.log(barriers.indexOf(array[i]));
-    if (barriers.indexOf(array[i])) {
-      console.log("BARRIER IN WAY");
-      return false;
-    } else {
-      console.log("NO barriers in way");
-      return true;
+function barrierCheck(tempArray) { //return boolean
+  // console.log('tempMoveArray', tempMoveArray);
+  for(var m = 0; m < tempArray.length; m++) {
+    let isSquareBlocked = $(`[data-x="${tempArray[m].x}"][data-y="${tempArray[m].y}"]`).hasClass('barrier')
+    // console.log('isSquareBlocked, if so return false to barrier check ', isSquareBlocked );
+    if( isSquareBlocked ) {
+      alert('You can\'t jump over or onto a barrier')
+      return false
     }
   }
-};
+  return true
+}
+
+// function barrierCheck(tempArray) {
+//   for (let i = 0; i < tempArray; i++) {
+//     console.log(tempArray.length);
+//     let barrier = $(`[data-x="${tempArray[i].x}"][data-y="${tempArray[i].y}"]`).hasClass('barrier');
+//     console.log("Barrier: ", barrier);
+//     if(barrier) {
+//       console.log("False");
+//       return false; //Player can't move
+//     }
+//   }
+//   console.log("True");
+//   return true; //Player can move
+
+  // let barriers = [];
+  // $('.barrier').each(function() {
+  //   let barrierCoordinates = {};
+  //   barrierCoordinates.x = $(this).data('x');
+  //   barrierCoordinates.y = $(this).data('y');
+  //   barriers.push(barrierCoordinates);
+  // });
+  //
+  // console.log("Barrier Coordinates: ", barriers);
+  // console.log("Coordinates of passed array: ", array);
+  // console.log("Passed array length: ", array.length);
+  //
+  // for( let i = 0; i < array.length; i++){
+  //   // console.log("barriers.indexOf(array[i]): ", barriers.indexOf(array[i]));
+  //   if (barriers.x == array[i].x && barriers.y == array[i].y) {
+  //     console.log("BARRIER IN WAY");
+  //     return false;
+  //   } else {
+  //     console.log("NO barriers in way");
+  //     return true;
+  //   }
+  // }
+// };
 
 /*
 EVENT LISTENERS
@@ -232,10 +261,8 @@ $(function() {
     let squarePositionY = parseInt($(event.target).attr('data-y'));
     let position = {};
 
-    //Check if a barrier is in the away
-    barrierCheck(tempArray);
-
-    console.log("Click handler is working!");
+    // //Check if a barrier is in the away
+    // barrierCheck(tempArray);
 
     //Moving across X
     if( activePlayerPositionX === squarePositionX ) {
@@ -281,7 +308,7 @@ $(function() {
         }
     };
     let $this = event.target;
-    canPlayerMove($this);
+    canPlayerMove($this, tempArray);
   });
 });
 
