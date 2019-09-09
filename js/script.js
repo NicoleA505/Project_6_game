@@ -285,6 +285,16 @@ $(function() {
   });
 });
 
+//Function to recognize a player next to you
+  //IF player's coordinates are +1 up,down,right or left from other player
+    //Activate fighting mode
+    //Return TRUE
+  //ELSE continue as normal
+//End Function
+//IF above function == true
+  //Activeplayer deals damage to player 2's HP depending on what weapon they have
+  
+
 
 /*GAME MECHANICS OF USER
 WHEN it is the user's turn
