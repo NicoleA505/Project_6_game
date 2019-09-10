@@ -54,7 +54,7 @@ const weapons = [
 FUNCTIONS
 */
 //Creates the grid with the class name on grid items for styles
-function gridCreator() {
+const gridCreator = () => {
   for(let x = 1; x < 11; x++){ //creates the rows
     for(let y = 1; y < 11; y++){ //creates the columns
       $('.grid-container').append('<div class="grid-item" data-x="'+x+'" data-y="'+y+'">square '+x+', '+y+'</div>')
@@ -63,12 +63,12 @@ function gridCreator() {
 }
 gridCreator();
 
-function randomNum(){
+const randomNum = () => {
   return Math.floor(Math.random() * (11 - 1) + 1);
 }
 
 //Generates a random color.
-function getRandomColor() {
+const getRandomColor = () => {
   var letters = '0123456789ABCDEF';
   var color = '#';
   for (var i = 0; i < 6; i++) {
@@ -77,7 +77,7 @@ function getRandomColor() {
   return color;
 }
 //Creates a barrier at a random square
-function createBarrier() {
+const createBarrier = () => {
   let coordinates = {
     x: randomNum(),
     y: randomNum()
@@ -92,7 +92,7 @@ function createBarrier() {
     }
 }
 //Is a loop that takes the createBarrier() function and loops it 12 times to make 12 barriers on the grid
-function placeBarriers(){
+const placeBarriers = () => {
   for(let i = 0; i < 12; i++) {
     createBarrier();
   }
@@ -101,7 +101,7 @@ function placeBarriers(){
 
 
 //Function that places weapons:
-function createWeapon(weapon) {
+const createWeapon= (weapon) => {
   let coordinates = {
     x: randomNum(),
     y: randomNum()
@@ -118,14 +118,14 @@ function createWeapon(weapon) {
 }
 
 //Is a loop that takes the createWeapon() function and loops it 4 times to place 4 weapons on the grid.
-function placeWeapons(){
+const placeWeapons = () => {
   for(let i = 0; i < weapons.length; i++) {
     createWeapon(weapons[i].name);
   }
 }
 
 
-function placePlayer(player){
+const placePlayer = (player) => {
   let coordinates = {
     x: randomNum(),
     y: randomNum()
@@ -143,18 +143,18 @@ function placePlayer(player){
 }
 
 //Player Movement
-function createTempArray(eventTarget) {
-  // let tempArray = [];
-  let activePlayerPositionX = activePlayer.position.x;
-  let activePlayerPositionY = activePlayer.position.y;
+const createTempArray = (eventTarget) => {
+  // console.log('eventTarget from createTempArray', eventTarget);
+  let activePlayerPositionX = parseInt(activePlayer.position.x);
+  let activePlayerPositionY = parseInt(activePlayer.position.y);
   let squarePositionX = parseInt($(eventTarget).attr('data-x'));
   let squarePositionY = parseInt($(eventTarget).attr('data-y'));
-            let tempArray = [];//
-  let position = {};
+  console.log('activePlayerPositionX,activePlayerPositionY', typeof activePlayerPositionX,activePlayerPositionY);
+  let tempArray = [];
 
   if( activePlayerPositionX === squarePositionX ) {
     if(activePlayerPositionY < squarePositionY){
-      let tempArray = [];
+
       for (let i = activePlayerPositionY; i < squarePositionY; i++) {
         let position = {};
         position.x = activePlayerPositionX;
@@ -163,11 +163,10 @@ function createTempArray(eventTarget) {
       }
         return tempArray
     } else if (activePlayerPositionY > squarePositionY) {
-        let tempArray = [];
-        for (let i = activePlayerPositionY; i > squarePositionY; i--) {
+        for (let k = activePlayerPositionY; k > squarePositionY; k--) {
           let position = {};
           position.x = activePlayerPositionX;
-          position.y = i - 1; // -1 for moving left
+          position.y = k - 1; // -1 for moving left
           tempArray.push(position);
         }
           return tempArray
@@ -175,19 +174,17 @@ function createTempArray(eventTarget) {
     //Moving across Y
   } else if (activePlayerPositionY === squarePositionY) {
       if(activePlayerPositionX < squarePositionX) {
-        let tempArray = [];
-        for (let i = activePlayerPositionX; i < squarePositionX; i++) {
+        for (let l = activePlayerPositionX; l < squarePositionX; l++) {
           let position = {};
-          position.x = i + 1; // +1 for moving down
+          position.x = l + 1; // +1 for moving down
           position.y = activePlayerPositionY;
           tempArray.push(position);
         }
           return tempArray
       } else if (activePlayerPositionX > squarePositionX) {
-          let tempArray = [];
-          for (let i = squarePositionX; i < activePlayerPositionX; i++) {
+          for (let m = squarePositionX; m < activePlayerPositionX; m++) {
             let position = {};
-            position.x = i + 1;
+            position.x = m + 1;
             position.y = activePlayerPositionY;
             tempArray.push(position);
           }
@@ -197,7 +194,7 @@ function createTempArray(eventTarget) {
   // movePlayer(eventTarget, tempArray)
 }
 
-function canPlayerMove(eventTarget, tempArray) {
+const canPlayerMove = (eventTarget, tempArray) => {
   console.log('tempArray', tempArray);
   let within3Spaces = isWithin3Spaces(eventTarget);
   let thereABarrier = isThereABarrier(eventTarget);
@@ -213,12 +210,13 @@ function canPlayerMove(eventTarget, tempArray) {
 
 
 }
-//
-function movePlayer(eventTarget) {
-  // let tempArray = createTempArray(eventTarget)
+
+const movePlayer = (eventTarget) => {
+  // console.log('eventTarget from movePlayer', eventTarget);
+
   // console.log('tempArrayProd', tempArray);
-  let canPlayerReallyMove = canPlayerMove( eventTarget, createTempArray(eventTarget) );
-  // console.log('canPlayerReallyMove', canPlayerReallyMove);
+  let canPlayerReallyMove = createTempArray(eventTarget);
+  console.log('canPlayerReallyMove', canPlayerReallyMove);
   if(canPlayerReallyMove) {
     $('.player1').removeClass('player1');
     activePlayer.position.x = $(eventTarget).attr('data-x');
@@ -228,7 +226,7 @@ function movePlayer(eventTarget) {
 }
 //
 // //Function: did they click within 3 spaces?
-function isWithin3Spaces(eventTarget) {
+const isWithin3Spaces = (eventTarget) => {
   let activePlayerPositionX = activePlayer.position.x;
   let activePlayerPositionY = activePlayer.position.y;
   let squarePositionX = $(eventTarget).attr('data-x');
@@ -250,7 +248,7 @@ function isWithin3Spaces(eventTarget) {
   }
 }
 // //Function to check if the spot has a barriers
-function isThereABarrier(eventTarget) {
+const isThereABarrier = (eventTarget) => {
   //If event.target has a class of barrier, alert("Can't move there! There's a barrier")
   let yesBarrier = $(eventTarget).hasClass("barrier");
   console.log("Is there a barrier?: ", yesBarrier);
@@ -263,8 +261,7 @@ function isThereABarrier(eventTarget) {
     // return true;
   }
 }
-//
-function barrierCheck(tempArray) { //return boolean
+const barrierCheck = (tempArray) => { //return boolean
   console.log('tempArray', tempArray);
   for(var m = 0; m < tempArray.length; m++) {
     let isSquareBlocked = $(`[data-x="${tempArray[m].x}"][data-y="${tempArray[m].y}"]`).hasClass('barrier')
@@ -289,7 +286,7 @@ placePlayer(player2);
 /*EVENT LISTENERS*/
 $(document).ready(function (){
 
-  $(document).on('click', '.grid-item', function() {
+  $(document).on('click', '.grid-item', () => {
     console.log('hello');
     let eventTarget = event.target;
     movePlayer(eventTarget)
