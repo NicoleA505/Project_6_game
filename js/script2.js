@@ -12,45 +12,39 @@ let player1 = {
     x:0,
     y:0,
   },
-  weapon: {
-    name: "pencil",
-    power: 10,
-  },
+  weaponType: "pencil",
 };
 
 let player2 = {
   name: "player2",
   health: 100,
   position: {
-    x: 0,
-    y: 0,
+    x:0,
+    y:0,
   },
-  weapon: {
-    name: "pencil",
-    power: 10,
-  },
+  weaponType: "pencil",
 };
 
 let activePlayer = player1;
 
 const weapons = [
   {
-    name:"sword",
+    weaponType:"sword",
     power: "20",
     img:"",
   },
   {
-    name:"ax",
+    weaponType:"ax",
     power: "15",
     img:"",
   },
   {
-    name:"bow and arrow",
+    weaponType:"bow and arrow",
     power: "30",
     img:"",
   },
   {
-    name:"spear",
+    weaponType:"spear",
     power: "25",
     img:"",
   }
@@ -103,12 +97,11 @@ const placeBarriers = () => {
     createBarrier();
   }
 }
-placeBarriers();
 
 
 
 //Function that places weapons:
-const createWeapon = (weapon) => {
+const createWeapon= (weapon) => {
   let coordinates = {
     x: randomNum(),
     y: randomNum()
@@ -120,17 +113,17 @@ const createWeapon = (weapon) => {
     return createWeapon(weapon);
   } else {
     //ELSE add a class of 'weapon' and 'taken' to eventTarget square and also adds a random color.
-      $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass("weapon").addClass('taken').css('backgroundColor', getRandomColor());
+      $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass("weapon").addClass('taken').attr('data-weaponType', weapon).css('backgroundColor', getRandomColor());
     }
 }
 
 //Is a loop that takes the createWeapon() function and loops it 4 times to place 4 weapons on the grid.
-const placeWeapon = () => {
+const placeWeapons = () => {
   for(let i = 0; i < weapons.length; i++) {
-    createWeapon(weapons[i].name);
+    createWeapon(weapons[i].weaponType);
   }
 }
-placeWeapon();
+
 
 const placePlayer = (player) => {
   let coordinates = {
@@ -148,8 +141,6 @@ const placePlayer = (player) => {
       player["position"].y = coordinates.y;
     }
 }
-placePlayer(player1);
-placePlayer(player2);
 
 //Player Movement
 const createTempArray = (eventTarget) => {
@@ -158,7 +149,7 @@ const createTempArray = (eventTarget) => {
   let activePlayerPositionY = parseInt(activePlayer.position.y);
   let squarePositionX = parseInt($(eventTarget).attr('data-x'));
   let squarePositionY = parseInt($(eventTarget).attr('data-y'));
-  console.log('activePlayerPositionX,activePlayerPositionY', typeof activePlayerPositionX,activePlayerPositionY);
+  // console.log('activePlayerPositionX,activePlayerPositionY', typeof activePlayerPositionX,activePlayerPositionY);
   let tempArray = [];
 
   if( activePlayerPositionX === squarePositionX ) {
@@ -221,17 +212,18 @@ const movePlayer = (eventTarget) => {
   // console.log('eventTarget from movePlayer', eventTarget);
 
   // console.log('tempArrayProd', tempArray);
+  let isItMoving = canPlayerMove(eventTarget, createTempArray(eventTarget));
   let canPlayerReallyMove = createTempArray(eventTarget);
   console.log('canPlayerReallyMove', canPlayerReallyMove);
-  if(canPlayerReallyMove) {
+  if(isItMoving) {
     $('.player1').removeClass('player1');
     activePlayer.position.x = $(eventTarget).attr('data-x');
     activePlayer.position.y = $(eventTarget).attr('data-y');
     $(eventTarget).addClass('player1');
   }
 }
-
-//Function: did they click within 3 spaces?
+//
+// //Function: did they click within 3 spaces?
 const isWithin3Spaces = (eventTarget) => {
   let activePlayerPositionX = activePlayer.position.x;
   let activePlayerPositionY = activePlayer.position.y;
@@ -240,7 +232,7 @@ const isWithin3Spaces = (eventTarget) => {
   let positionXDiff = Math.abs(activePlayerPositionX - parseInt(squarePositionX));
   let positionYDiff = Math.abs(activePlayerPositionY - parseInt(squarePositionY));
 
-  // If player clicked a spot with x < x+3 or y < y+3 (TRUE/FALSE), move player along the x or y axis to that grid item.
+
   if (positionXDiff <= 3 && squarePositionY == activePlayerPositionY) {
     // console.log("It's within 3 spaces on the X scale!");
     return true;
@@ -250,42 +242,42 @@ const isWithin3Spaces = (eventTarget) => {
   } else {
   // Else alert("You can only move 3 spaces at a time")
     alert("You can't move more than 3 spaces away and you can't move diagonally");
-    return false;
+    return false
   }
 }
-//Function to check if the spot has a barriers
+// //Function to check if the spot has a barriers
 const isThereABarrier = (eventTarget) => {
   //If event.target has a class of barrier, alert("Can't move there! There's a barrier")
   let yesBarrier = $(eventTarget).hasClass("barrier");
   console.log("Is there a barrier?: ", yesBarrier);
   if (yesBarrier) {
-    alert("Can't move there! There's a barrier");
-    // return true;
+    console.log("Can't move there! There's a barrier");
+    // return false;
   }
   //Else move player
   else {
-    // return false;
+    // return true;
   }
 }
-
 const barrierCheck = (tempArray) => { //return boolean
-  console.log('tempMoveArray', tempMoveArray);
+  console.log('tempArray', tempArray);
   for(var m = 0; m < tempArray.length; m++) {
     let isSquareBlocked = $(`[data-x="${tempArray[m].x}"][data-y="${tempArray[m].y}"]`).hasClass('barrier')
 
     if( isSquareBlocked ) {
-      alert('You can\'t jump over or onto a barrier')
+      alert('You can\'t jump over or onto a barrier.')
       return false
     }
+
   }
   return true
 }
 
 const switchActivePlayer = () => {
-    if(activePlayer === player1) {
+    if(activePlayer == player1) {
       activePlayer = player2;
-    } else {
-      activePlayer = player1
+    } else if (activePlayer === player2) {
+      activePlayer = player1;
     }
 }
 
@@ -300,27 +292,37 @@ const isWeaponPresent = (eventTarget) => {
   }
 }
 
-// const weaponPickUp = (eventTarget) => {
-//   let weaponCheck = isWeaponPresent();
-//   let currentWeapon = activePlayer.weapon.name;
-//   let newWeapon = $(eventTarget).attr
-//   if (weaponCheck) {
-//
-//   }
-// }
 
-/*
-EVENT LISTENERS
-*/
-$(function() {
-  $('.grid-container').on('click', 'div.grid-item', function() {
-  
+const weaponPickUp = (eventTarget) => {
+  let weaponCheck = isWeaponPresent(eventTarget);
+  let currentWeapon = activePlayer.weaponType;
+  let newWeapon = $(eventTarget).attr('data-weaponType');
+  console.log(newWeapon);
+  if (weaponCheck) {
+    currentWeapon = newWeapon;
+  }
+}
+
+
+//Game Set Up
+placeBarriers();
+placeWeapons();
+placePlayer(player1);
+placePlayer(player2);
+
+
+
+
+/*EVENT LISTENERS*/
+$(document).ready(function (){
+
+  $(document).on('click', '.grid-item', () => {
     let eventTarget = event.target;
-    canPlayerMove(eventTarget, tempArray);
-    switchActivePlayer();
-
-    isWeaponPresent(event.target);
+    movePlayer(eventTarget);
+    weaponPickUp(eventTarget);
+    console.log(activePlayer);
   });
+
 });
 
 //Picking up weapon sequence comes first
@@ -356,7 +358,6 @@ $(function() {
 //End Function
 //IF above function == true
   //Activeplayer deals damage to player 2's HP depending on what weapon they have
-
 
 
 /*GAME MECHANICS OF USER
