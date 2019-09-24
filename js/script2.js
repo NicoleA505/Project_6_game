@@ -13,6 +13,8 @@ let player1 = {
     y:0,
   },
   weaponType: "pencil",
+  weaponDamage: 5,
+  weaponIMG:"../images/pencil.png",
 };
 
 let player2 = {
@@ -23,6 +25,8 @@ let player2 = {
     y:0,
   },
   weaponType: "pencil",
+  weaponDamage: 5,
+  weaponIMG:"../images/pencil.png",
 };
 
 let activePlayer = player1;
@@ -30,23 +34,23 @@ let activePlayer = player1;
 const weapons = [
   {
     weaponType:"sword",
-    power: "20",
-    img:"",
+    power: 20,
+    img:"../images/sword.png",
   },
   {
     weaponType:"ax",
-    power: "15",
-    img:"",
+    power: 15,
+    img:"../images/axe.png",
   },
   {
     weaponType:"bow and arrow",
-    power: "30",
-    img:"",
+    power: 30,
+    img:"../images/archery.png",
   },
   {
     weaponType:"spear",
-    power: "25",
-    img:"",
+    power: 25,
+    img:"../images/spear.png",
   }
 ];
 
@@ -76,6 +80,8 @@ const getRandomColor = () => {
   }
   return color;
 }
+
+
 //Creates a barrier at a random square
 const createBarrier = () => {
   let coordinates = {
@@ -113,7 +119,7 @@ const createWeapon= (weapon) => {
     return createWeapon(weapon);
   } else {
     //ELSE add a class of 'weapon' and 'taken' to eventTarget square and also adds a random color.
-      $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass("weapon").addClass('taken').attr('data-weaponType', weapon).css('backgroundColor', getRandomColor());
+      $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass("weapon").addClass('taken').attr('data-weaponType', weapon);
     }
 }
 
@@ -131,9 +137,12 @@ const placePlayer = (player) => {
     y: randomNum()
   };
   let isOccupied = $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).hasClass("barrier");
+  let isAlsoOccupied = $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).hasClass("taken");
   if (isOccupied){
     console.log("Barrier in the way of placing player");
     return placePlayer(player);
+  } else if (isAlsoOccupied) {
+      return placePlayer(player);
   } else {
     //ELSE add a class of player1 or 2 to eventTarget square
       $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass(player["name"]).addClass("taken");
@@ -215,11 +224,16 @@ const movePlayer = (eventTarget) => {
   let isItMoving = canPlayerMove(eventTarget, createTempArray(eventTarget));
   let canPlayerReallyMove = createTempArray(eventTarget);
   console.log('canPlayerReallyMove', canPlayerReallyMove);
-  if(isItMoving) {
+  if(isItMoving && activePlayer == player1) {
     $('.player1').removeClass('player1');
     activePlayer.position.x = $(eventTarget).attr('data-x');
     activePlayer.position.y = $(eventTarget).attr('data-y');
     $(eventTarget).addClass('player1');
+  } else if (isItMoving && activePlayer == player2) {
+    $('.player2').removeClass('player2');
+    activePlayer.position.x = $(eventTarget).attr('data-x');
+    activePlayer.position.y = $(eventTarget).attr('data-y');
+    $(eventTarget).addClass('player2');
   }
 }
 //
@@ -285,33 +299,25 @@ const isWeaponPresent = (eventTarget) => {
   let yesWeapon = $(eventTarget).hasClass("weapon");
   console.log(yesWeapon);
   if (yesWeapon) {
-    console.log("If statement is working.");
     return true;
   } else {
     return false;
   }
 }
 
-
 const weaponPickUp = (eventTarget) => {
   let weaponCheck = isWeaponPresent(eventTarget);
-  let currentWeapon = activePlayer.weaponType;
   let newWeapon = $(eventTarget).attr('data-weaponType');
-  console.log(newWeapon);
   if (weaponCheck) {
-    currentWeapon = newWeapon;
+    activePlayer.weaponType = newWeapon;
   }
 }
-
 
 //Game Set Up
 placeBarriers();
 placeWeapons();
 placePlayer(player1);
 placePlayer(player2);
-
-
-
 
 /*EVENT LISTENERS*/
 $(document).ready(function (){
@@ -321,11 +327,22 @@ $(document).ready(function (){
     movePlayer(eventTarget);
     weaponPickUp(eventTarget);
     console.log(activePlayer);
+    switchActivePlayer();
+
   });
 
 });
 
-//Picking up weapon sequence comes first
+
+//Entering data into the DOM
+let player1_HP = $("#player1_health").text(player1.health);
+let player1_weapon = $("#player1_weapon").text(player1.weaponType);
+let player1_damage = $("#player1_damage").text(player1.weaponDamage);
+let player2_HP = $("#player2_health").text(player2.health);
+let player2_weapon = $("#player2_weapon").text(player2.weaponType);
+let player2_damage = $("#player2_damage").text(player2.weaponDamage);
+
+
 
 //Function to check if a weapon is on event.target
 

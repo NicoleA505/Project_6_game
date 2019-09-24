@@ -1,3 +1,8 @@
+body {
+  position: relative;
+  z-index: 1000;
+}
+
 
 .main-header {
   margin-top: 60px;
@@ -26,27 +31,71 @@
   width: 1000px;
   height: 1000px;
   position: relative;
+  margin-bottom: 30px;
 }
 .grid-item {
-  background-color: grey;
-  outline: 1px solid white;
+  background-color: white;
+  border: 1px solid #DCDCDC;
   border-radius: 10px;
 }
 .barrier{
-  background-color: brown;
+  background: url('../images/boulder.png') center/90px 60px no-repeat;
 }
 .player1 {
-background: url('../images/TemplarKnight.jpg') center/130px 100px no-repeat;
-box-shadow:  inset 0 0 10px #fff;
+background: url('../images/helmet.png') center/100px 70px no-repeat;
+
 }
 .player2 {
-  background: url('../images/helmetBlack.jpg') center/130px 100px no-repeat;
-  box-shadow:  inset 0 0 10px #000;
+  background: url('../images/knight.png') center/90px 70px no-repeat;
+  /* box-shadow:  inset 0 0 10px #000; */
 }
 .weapon {
   background-color: blue;
 }
 .grid-item:hover {
   transform: scale(1.02, 1.02);
-  box-shadow: 0 0 15px #fff;
+  box-shadow: 0 0 15px #000;
+}
+
+[data-weaponType='spear'] {
+  background: url('../images/spear.png') center/80px 60px no-repeat;
+}
+
+[data-weaponType='bow and arrow'] {
+  background: url('../images/archery.png') center/80px 60px no-repeat;
+}
+
+[data-weaponType='sword'] {
+  background: url('../images/sword.png') center/80px 60px no-repeat;
+}
+
+[data-weaponType='ax'] {
+  background: url('../images/axe.png') center/80px 60px no-repeat;
+}
+
+
+
+.player-stats {
+  position: absolute;
+  width: 100%;
+  top: 100px;
+  left: 0px;
+  display: flex;
+  justify-content: space-between;
+  z-index: -1;
+}
+
+.infoBox {
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 15%;
+  height: 12rem;
+  font-size: 1.3rem;
+  padding: 15px;
+  margin: 50px;
+}
+
+.infoBox ul li {
+  list-style: none;
+  margin-left: -30px;
 }
