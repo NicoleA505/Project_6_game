@@ -12,7 +12,7 @@ let player1 = {
     x:0,
     y:0,
   },
-  weaponType: "pencil",
+  weaponType: "Pencil",
   weaponDamage: 5,
   weaponIMG:"../images/pencil.png",
 };
@@ -24,7 +24,7 @@ let player2 = {
     x:0,
     y:0,
   },
-  weaponType: "pencil",
+  weaponType: "Pencil",
   weaponDamage: 5,
   weaponIMG:"../images/pencil.png",
 };
@@ -33,22 +33,22 @@ let activePlayer = player1;
 
 const weapons = [
   {
-    weaponType:"sword",
+    weaponType:"Sword",
     power: 20,
     img:"../images/sword.png",
   },
   {
-    weaponType:"ax",
+    weaponType:"Ax",
     power: 15,
     img:"../images/axe.png",
   },
   {
-    weaponType:"bow and arrow",
+    weaponType:"Bow and Arrow",
     power: 30,
     img:"../images/archery.png",
   },
   {
-    weaponType:"spear",
+    weaponType:"Spear",
     power: 25,
     img:"../images/spear.png",
   }
@@ -119,14 +119,14 @@ const createWeapon= (weapon) => {
     return createWeapon(weapon);
   } else {
     //ELSE add a class of 'weapon' and 'taken' to eventTarget square and also adds a random color.
-      $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass("weapon").addClass('taken').attr('data-weaponType', weapon);
+      $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass("weapon").addClass('taken').attr('data-weaponType', weapon.weaponType).attr('data-weaponDamage', weapon.power);
     }
 }
 
 //Is a loop that takes the createWeapon() function and loops it 4 times to place 4 weapons on the grid.
 const placeWeapons = () => {
   for(let i = 0; i < weapons.length; i++) {
-    createWeapon(weapons[i].weaponType);
+    createWeapon(weapons[i]);
   }
 }
 
@@ -305,12 +305,30 @@ const isWeaponPresent = (eventTarget) => {
   }
 }
 
+const updatingPlayerStatsBox = () => {
+  //Entering data into the DOM
+  let player1_HP = $("#player1_health").text(player1.health);
+  let player1_weapon = $("#player1_weapon").text(player1.weaponType);
+  let player1_damage = $("#player1_damage").text(player1.weaponDamage);
+  let player2_HP = $("#player2_health").text(player2.health);
+  let player2_weapon = $("#player2_weapon").text(player2.weaponType);
+  let player2_damage = $("#player2_damage").text(player2.weaponDamage);
+}
+
 const weaponPickUp = (eventTarget) => {
   let weaponCheck = isWeaponPresent(eventTarget);
   let newWeapon = $(eventTarget).attr('data-weaponType');
+  let newDamage = $(eventTarget).attr('data-weaponDamage');
+  let player1_weapon = $("#player1_weapon").text(player1.weaponType);
+  let player2_weapon = $("#player2_weapon").text(player2.weaponType);
+
   if (weaponCheck) {
     activePlayer.weaponType = newWeapon;
+    activePlayer.weaponDamage = newDamage;
+    // player1_weapon.append("<img src='activePlayer.weaponIMG' />") // Adding image to the player stats
+    // newWeapon = $(eventTarget).attr('data-weaponType', activePlayer.weaponType); //dropping image into square
   }
+  updatingPlayerStatsBox();
 }
 
 //Game Set Up
@@ -332,16 +350,6 @@ $(document).ready(function (){
   });
 
 });
-
-
-//Entering data into the DOM
-let player1_HP = $("#player1_health").text(player1.health);
-let player1_weapon = $("#player1_weapon").text(player1.weaponType);
-let player1_damage = $("#player1_damage").text(player1.weaponDamage);
-let player2_HP = $("#player2_health").text(player2.health);
-let player2_weapon = $("#player2_weapon").text(player2.weaponType);
-let player2_damage = $("#player2_damage").text(player2.weaponDamage);
-
 
 
 //Function to check if a weapon is on event.target

@@ -57,19 +57,19 @@ background: url('../images/helmet.png') center/100px 70px no-repeat;
   box-shadow: 0 0 15px #000;
 }
 
-[data-weaponType='spear'] {
+[data-weaponType='Spear'] {
   background: url('../images/spear.png') center/80px 60px no-repeat;
 }
 
-[data-weaponType='bow and arrow'] {
+[data-weaponType='Bow and Arrow'] {
   background: url('../images/archery.png') center/80px 60px no-repeat;
 }
 
-[data-weaponType='sword'] {
+[data-weaponType='Sword'] {
   background: url('../images/sword.png') center/80px 60px no-repeat;
 }
 
-[data-weaponType='ax'] {
+[data-weaponType='Ax'] {
   background: url('../images/axe.png') center/80px 60px no-repeat;
 }
 
