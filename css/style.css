@@ -57,7 +57,13 @@ background: url('../images/helmet.png') center/100px 70px no-repeat;
   box-shadow: 0 0 15px #000;
 }
 
+.spear {
+  background-image: url('../images/spear.png');
+}
+
+
 [data-weaponType='Spear'] {
+  background-image: url('../images/spear.png');
   background: url('../images/spear.png') center/80px 60px no-repeat;
 }
 
@@ -73,8 +79,6 @@ background: url('../images/helmet.png') center/100px 70px no-repeat;
   background: url('../images/axe.png') center/80px 60px no-repeat;
 }
 
-
-
 .player-stats {
   position: absolute;
   width: 100%;
@@ -89,7 +93,7 @@ background: url('../images/helmet.png') center/100px 70px no-repeat;
   border: 1px solid black;
   border-radius: 10px;
   width: 15%;
-  height: 12rem;
+  height: 16rem;
   font-size: 1.3rem;
   padding: 15px;
   margin: 50px;
@@ -98,4 +102,11 @@ background: url('../images/helmet.png') center/100px 70px no-repeat;
 .infoBox ul li {
   list-style: none;
   margin-left: -30px;
+}
+
+.weapon-pic {
+  width: 70px;
+  height: 70px;
+  border: 1px solid #000;
+  margin: 10px auto;
 }
