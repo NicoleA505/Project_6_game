@@ -43,7 +43,7 @@ const weapons = [
     img:"../images/axe.png",
   },
   {
-    weaponType:"Bow and Arrow",
+    weaponType:"Archery",
     power: 30,
     img:"../images/archery.png",
   },
@@ -200,7 +200,6 @@ const createTempArray = (eventTarget) => {
             return tempArray
       }
   };
-  // movePlayer(eventTarget, tempArray)
 }
 
 const canPlayerMove = (eventTarget, tempArray) => {
@@ -311,20 +310,25 @@ const updatingPlayerStatsBox = (newWeapon_img, newWeapon, newDamage) => {
     let player1_HP = $("#player1_health").text(player1.health);
     $("#player1_weapon").text(newWeapon);
     $("#player1_damage").text(newDamage);
-    $('#player1_weaponImage').addClass(newWeapon.toLowerCase());
+    // $('#player1_weaponImage').addClass(newWeapon.toLowerCase());
   // } else {
     let player2_HP = $("#player2_health").text(player2.health);
     $("#player2_weapon").text(newWeapon);
     $("#player2_damage").text(newDamage);
-    $('#player2_weaponImage').addClass(newWeapon.toLowerCase());
+    // $('#player2_weaponImage').addClass(newWeapon.toLowerCase());
   // }
 }
 
+let player1_weaponIMG = $('#player1_weaponIMG');
+player1_weaponIMG.addClass('pencil');
+let player2_weaponIMG = $('#player2_weaponIMG');
+player2_weaponIMG.addClass('pencil');
+
 const weaponIMGBackground = (eventTarget, player) => {
   let player1_weaponIMG = $('#player1_weaponIMG');
-  player1_weaponIMG.css('backgroundImage', activePlayer.weaponIMG);
   let player2_weaponIMG = $('#player2_weaponIMG');
-  player2_weaponIMG.css('backgroundImage', activePlayer.weaponIMG);
+  player1_weaponIMG.removeClass('pencil');
+  player2_weaponIMG.removeClass('pencil');
   let newWeapon = $(eventTarget).attr('data-weaponType');
   if ($(eventTarget).hasClass('weapon') && $(eventTarget).hasClass('player1')){
       player1_weaponIMG.css('backgroundImage', $(eventTarget).css('backgroundImage')).css('backgroundRepeat', 'no-repeat').css('backgroundPosition', 'center');
@@ -357,6 +361,26 @@ const weaponPickUp = (eventTarget) => {
     $(eventTarget).attr('data-img', oldWeaponImage);
   }
 }
+
+//Fight logic
+// const canTheyFight = () => {
+//   let coordXPlayer1 = player1.position.x;
+//   let coordYPlayer1 = player1.position.y;
+//   let coordXPlayer2 = player2.position.x;
+//   let coordYPlayer2 = player2.position.y;
+//   console.log("X Coord of Player1: ", coordXPlayer1);
+//   console.log("X Coord of Player2: ", coordXPlayer2);
+//
+//   if (coordXPlayer2 === coordXPlayer1 + 1 || coordXPlayer2 === coordXPlayer1 - 1) {
+//     console.log("Fight activated, player 1 and 2 are next to each other on the X axis!");
+//     return true;
+//   } else if(coordYPlayer2 === 1 + coordYPlayer1 || coordYPlayer2 === 1 - coordYPlayer1) {
+//     console.log("Fight activated, player 1 and 2 are next to each other on the Y axis!");
+//     return true;
+//   } else {
+//     return false;
+//   }
+// }
 
 //Game Set Up
 placeBarriers();
