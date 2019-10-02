@@ -340,6 +340,8 @@ const weaponPickUp = (eventTarget) => {
   let player2_weapon = $("#player2_weapon").text(player2.weaponType);
 
   if (weaponCheck) {
+    let oldWeaponName = activePlayer.weaponType
+    let oldWeaponDamage = activePlayer.weaponDamage;
     activePlayer.weaponType = newWeapon;
     activePlayer.weaponDamage = newDamage;
     updatingPlayerStatsBox(newWeapon_img, newWeapon, newDamage);
