@@ -362,25 +362,34 @@ const weaponPickUp = (eventTarget) => {
   }
 }
 
-//Fight logic
-// const canTheyFight = () => {
-//   let coordXPlayer1 = player1.position.x;
-//   let coordYPlayer1 = player1.position.y;
-//   let coordXPlayer2 = player2.position.x;
-//   let coordYPlayer2 = player2.position.y;
-//   console.log("X Coord of Player1: ", coordXPlayer1);
-//   console.log("X Coord of Player2: ", coordXPlayer2);
-//
-//   if (coordXPlayer2 === coordXPlayer1 + 1 || coordXPlayer2 === coordXPlayer1 - 1) {
-//     console.log("Fight activated, player 1 and 2 are next to each other on the X axis!");
-//     return true;
-//   } else if(coordYPlayer2 === 1 + coordYPlayer1 || coordYPlayer2 === 1 - coordYPlayer1) {
-//     console.log("Fight activated, player 1 and 2 are next to each other on the Y axis!");
-//     return true;
-//   } else {
-//     return false;
-//   }
-// }
+// Fight logic
+const canTheyFight = () => {
+  let coordXPlayer1 = player1.position.x;
+  let coordYPlayer1 = player1.position.y;
+  let coordXPlayer2 = player2.position.x;
+  let coordYPlayer2 = player2.position.y;
+  console.log("X Coord of Player1: ", coordXPlayer1);
+  console.log("X Coord of Player2: ", coordXPlayer2);
+  console.log("Y Coord of Player1: ", coordYPlayer1);
+  console.log("Y Coord of Player2: ", coordYPlayer2);
+
+  if ( Math.abs(coordXPlayer1 - coordXPlayer2) == 1 && Math.abs(coordYPlayer1 - coordYPlayer2) == 0)  {
+    console.log("Fight activated, player 1 and 2 are next to each other on the X axis!");
+    return true;
+  } else if(Math.abs(coordYPlayer1 - coordYPlayer2) == 1 && Math.abs(coordXPlayer1 - coordXPlayer2) == 0) {
+    console.log("Fight activated, player 1 and 2 are next to each other on the Y axis!");
+    return true;
+  } else {
+    return false;
+  }
+}
+
+const fightMode = () => {
+  if (canTheyFight()) {
+    console.log(canTheyFight())
+    $('#myModal').modal(options);
+  }
+}
 
 //Game Set Up
 placeBarriers();
@@ -395,8 +404,10 @@ $(document).ready(function (){
     let eventTarget = event.target;
     movePlayer(eventTarget);
     weaponPickUp(eventTarget);
+    canTheyFight();
+    fightMode();
     console.log(activePlayer);
-    switchActivePlayer();
+    // switchActivePlayer();
 
   });
 
