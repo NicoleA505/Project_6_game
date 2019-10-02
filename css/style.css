@@ -43,9 +43,15 @@ body {
 }
 .player1 {
 background: url('../images/helmet.png') center/100px 70px no-repeat;
-
+}
+#player1 {
+  background: url('../images/helmet.png') center/100px 70px no-repeat;
 }
 .player2 {
+  background: url('../images/knight.png') center/90px 70px no-repeat;
+  /* box-shadow:  inset 0 0 10px #000; */
+}
+#player2 {
   background: url('../images/knight.png') center/90px 70px no-repeat;
   /* box-shadow:  inset 0 0 10px #000; */
 }
@@ -75,6 +81,10 @@ background: url('../images/helmet.png') center/100px 70px no-repeat;
   background: url('../images/axe.png') center/80px 60px no-repeat;
 }
 
+[data-weaponType='Pencil'] {
+  background: url('../images/pencil.png') center/80px 60px no-repeat;
+}
+
 .player-stats {
   position: absolute;
   width: 100%;
@@ -101,8 +111,8 @@ background: url('../images/helmet.png') center/100px 70px no-repeat;
 }
 
 .weapon-pic {
-  width: 70px;
-  height: 70px;
+  width: 80px;
+  height: 80px;
   border: 1px solid #000;
   margin: 10px auto;
 }

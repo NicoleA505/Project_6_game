@@ -307,34 +307,39 @@ const isWeaponPresent = (eventTarget) => {
 
 const updatingPlayerStatsBox = (newWeapon_img, newWeapon, newDamage) => {
   //Entering data into the DOM
-  let player1_HP = $("#player1_health").text(player1.health);
-  $("#player1_weapon").text(newWeapon);
-  $("#player1_damage").text(newDamage);
-  $('#player1_weaponIMG').addClass(newWeapon.toLowerCase());
-  // $('#player2_weaponIMG');
-  // let player2_HP = $("#player2_health").text(player2.health);
-  // let player2_weapon = $("#player2_weapon").text(player2.weaponType);
-  // let player2_damage = $("#player2_damage").text(player2.weaponDamage);
+  // if(activePlayer.name = "player1"){
+    let player1_HP = $("#player1_health").text(player1.health);
+    $("#player1_weapon").text(newWeapon);
+    $("#player1_damage").text(newDamage);
+    $('#player1_weaponImage').addClass(newWeapon.toLowerCase());
+  // } else {
+    let player2_HP = $("#player2_health").text(player2.health);
+    $("#player2_weapon").text(newWeapon);
+    $("#player2_damage").text(newDamage);
+    $('#player2_weaponImage').addClass(newWeapon.toLowerCase());
+  // }
 }
 
-const weaponIMGBackground = (eventTarget) => {
+const weaponIMGBackground = (eventTarget, player) => {
   let player1_weaponIMG = $('#player1_weaponIMG');
+  player1_weaponIMG.css('backgroundImage', activePlayer.weaponIMG);
   let player2_weaponIMG = $('#player2_weaponIMG');
+  player2_weaponIMG.css('backgroundImage', activePlayer.weaponIMG);
   let newWeapon = $(eventTarget).attr('data-weaponType');
   if ($(eventTarget).hasClass('weapon') && $(eventTarget).hasClass('player1')){
-      player1_weaponIMG.css('backgroundImage', $(eventTarget).css('backgroundImage'));
-      // $(eventTarget).attr('data-weaponType').css('backgroundImage', 'none');
+      player1_weaponIMG.css('backgroundImage', $(eventTarget).css('backgroundImage')).css('backgroundRepeat', 'no-repeat').css('backgroundPosition', 'center');
       console.log("It has weapon and player1");
-  } else if ($(eventTarget).hasClass('weapon') && $(eventTarget).hasClass('player2'))
-      player2_weaponIMG.css('backgroundImage', $(eventTarget).css('backgroundImage'));
+  } else if ($(eventTarget).hasClass('weapon') && $(eventTarget).hasClass('player2')){
+      player2_weaponIMG.css('backgroundImage', $(eventTarget).css('backgroundImage')).css('backgroundRepeat', 'no-repeat').css('backgroundPosition', 'center');;
       console.log("It has weapon and player2");
+    }
 }
 
 const weaponPickUp = (eventTarget) => {
   let weaponCheck = isWeaponPresent(eventTarget);
   let newWeapon = $(eventTarget).attr('data-weaponType');
   let newWeapon_img = `url(${$(eventTarget).attr('data-weaponType')})`;
-  console.log(newWeapon_img);
+  // console.log(newWeapon_img);
   let newDamage = $(eventTarget).attr('data-weaponDamage');
   let player1_weapon = $("#player1_weapon").text(player1.weaponType);
   let player2_weapon = $("#player2_weapon").text(player2.weaponType);
@@ -342,10 +347,14 @@ const weaponPickUp = (eventTarget) => {
   if (weaponCheck) {
     let oldWeaponName = activePlayer.weaponType
     let oldWeaponDamage = activePlayer.weaponDamage;
+    let oldWeaponImage = activePlayer.weaponIMG;
     activePlayer.weaponType = newWeapon;
     activePlayer.weaponDamage = newDamage;
+    weaponIMGBackground(eventTarget, activePlayer.name);
     updatingPlayerStatsBox(newWeapon_img, newWeapon, newDamage);
-    weaponIMGBackground(eventTarget);
+    $(eventTarget).attr('data-weaponType', oldWeaponName);
+    $(eventTarget).attr('data-weaponDamage', oldWeaponDamage);
+    $(eventTarget).attr('data-img', oldWeaponImage);
   }
 }
 
@@ -363,7 +372,7 @@ $(document).ready(function (){
     movePlayer(eventTarget);
     weaponPickUp(eventTarget);
     console.log(activePlayer);
-    // switchActivePlayer();
+    switchActivePlayer();
 
   });
 
