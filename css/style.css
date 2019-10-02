@@ -121,3 +121,25 @@ box-shadow: inset 1px 1px 8px 8px rgba(25,194,65,1);
 .pencil {
   background: url('../images/pencil.png') center/80px 60px no-repeat;
 }
+
+.modalText {
+  font-size: 45px;
+  font-family: 'Arimo', sans-serif;
+}
+
+.modalImage {
+  height: 200px;
+  width: 200px;
+}
+
+.attackerModalImage {
+  /* background: url('../images/helmet.png') center/90px 70px no-repeat; */
+}
+
+.battleImage {
+  background: url('../images/battle.png') center/90px 70px no-repeat;
+}
+
+.defenderModalImage {
+  background: url('../images/knight.png') center/90px 70px no-repeat;
+}

@@ -7,6 +7,7 @@ OBJECTS
 
 let player1 = {
   name: "player1",
+  displayName: "Player 1",
   health: 100,
   position: {
     x:0,
@@ -19,6 +20,7 @@ let player1 = {
 
 let player2 = {
   name: "player2",
+  displayName: "Player 2",
   health: 100,
   position: {
     x:0,
@@ -304,19 +306,26 @@ const isWeaponPresent = (eventTarget) => {
   }
 }
 
+$("#player1_health").text(player1.health);
+$("#player2_health").text(player2.health);
+$("#player1_weapon").text('Pencil');
+$("#player2_weapon").text('Pencil');
+$("#player1_damage").text('5');
+$("#player2_damage").text('5');
+
 const updatingPlayerStatsBox = (newWeapon_img, newWeapon, newDamage) => {
   //Entering data into the DOM
-  // if(activePlayer.name = "player1"){
-    let player1_HP = $("#player1_health").text(player1.health);
+  if(activePlayer == player1){
+    $("#player1_health").text(player1.health);
     $("#player1_weapon").text(newWeapon);
     $("#player1_damage").text(newDamage);
     // $('#player1_weaponImage').addClass(newWeapon.toLowerCase());
-  // } else {
-    let player2_HP = $("#player2_health").text(player2.health);
+  } else {
+    $("#player2_health").text(player2.health);
     $("#player2_weapon").text(newWeapon);
     $("#player2_damage").text(newDamage);
     // $('#player2_weaponImage').addClass(newWeapon.toLowerCase());
-  // }
+  }
 }
 
 let player1_weaponIMG = $('#player1_weaponIMG');
@@ -362,6 +371,28 @@ const weaponPickUp = (eventTarget) => {
   }
 }
 
+//Modal Information
+const infoModalBattle = (newWeapon_img, newWeapon, newDamage) => {
+  newWeapon = activePlayer.weaponType;
+  newDamage = activePlayer.weaponDamage;
+  if(activePlayer == player1){
+    $('.modalOpponentNameDisplay').text(player2.displayName);
+    $('.modalWeaponName').text(newWeapon);
+    $('.modalOpponentHealthDisplay').text(player2.health - newDamage);
+    $('.modalDamageDisplay').text(newDamage);
+    $('.attackerModalImage').attr('id', 'player1');
+    $('.defenderModalImage').attr('id', 'player2');
+  } else if (activePlayer == player2){
+    $('.modalOpponentNameDisplay').text(player1.displayName);
+    $('.modalWeaponName').text(newWeapon);
+    $('.modalOpponentHealthDisplay').text(player1.health - newDamage);
+    $('.modalDamageDisplay').text(newDamage);
+    $('.attackerModalImage').attr('id', 'player2');
+    $('.defenderModalImage').attr('id', 'player1');
+  }
+}
+
+
 // Fight logic
 const canTheyFight = () => {
   let coordXPlayer1 = player1.position.x;
@@ -387,7 +418,8 @@ const canTheyFight = () => {
 const fightMode = () => {
   if (canTheyFight()) {
     console.log(canTheyFight())
-    $('#myModal').modal(options);
+    $('#myModal').modal('show');
+    infoModalBattle();
   }
 }
 
@@ -407,7 +439,7 @@ $(document).ready(function (){
     canTheyFight();
     fightMode();
     console.log(activePlayer);
-    // switchActivePlayer();
+    switchActivePlayer();
 
   });
 
