@@ -1,6 +1,6 @@
 // const player1Username = prompt("Pick a username");
 // const player2Username = prompt("Pick a username");
-
+$('#winnerSection').hide(); //Hide the Winner section until the end of the game
 /*
 OBJECTS
 */
@@ -15,7 +15,7 @@ let player1 = {
   },
   weaponType: "Pencil",
   weaponDamage: 5,
-  weaponIMG:"../images/pencil.png",
+  weaponImage:"../images/pencil.png",
 };
 
 let player2 = {
@@ -28,7 +28,7 @@ let player2 = {
   },
   weaponType: "Pencil",
   weaponDamage: 5,
-  weaponIMG:"../images/pencil.png",
+  weaponImage:"../images/pencil.png",
 };
 
 let activePlayer = player1;
@@ -205,7 +205,7 @@ const createTempArray = (eventTarget) => {
 }
 
 const canPlayerMove = (eventTarget, tempArray) => {
-  console.log('tempArray', tempArray);
+  // console.log('tempArray', tempArray);
   let within3Spaces = isWithin3Spaces(eventTarget);
   let thereABarrier = isThereABarrier(eventTarget);
   let barrierBetween = barrierCheck(tempArray);
@@ -224,7 +224,7 @@ const movePlayer = (eventTarget) => {
   // console.log('tempArrayProd', tempArray);
   let isItMoving = canPlayerMove(eventTarget, createTempArray(eventTarget));
   let canPlayerReallyMove = createTempArray(eventTarget);
-  console.log('canPlayerReallyMove', canPlayerReallyMove);
+  // console.log('canPlayerReallyMove', canPlayerReallyMove);
   if(isItMoving && activePlayer == player1) {
     $('.player1').removeClass('player1');
     activePlayer.position.x = $(eventTarget).attr('data-x');
@@ -256,7 +256,7 @@ const isWithin3Spaces = (eventTarget) => {
     return true;
   } else {
   // Else alert("You can only move 3 spaces at a time")
-    alert("You can't move more than 3 spaces away and you can't move diagonally");
+    $('#wrongMoveModal').modal('show');
     return false
   }
 }
@@ -280,7 +280,8 @@ const barrierCheck = (tempArray) => { //return boolean
     let isSquareBlocked = $(`[data-x="${tempArray[m].x}"][data-y="${tempArray[m].y}"]`).hasClass('barrier')
 
     if( isSquareBlocked ) {
-      alert('You can\'t jump over or onto a barrier.')
+      $('#barrierInTheWay').modal('show');
+      // alert('You can\'t jump over or onto a barrier.')
       return false
     }
 
@@ -298,7 +299,7 @@ const switchActivePlayer = () => {
 
 const isWeaponPresent = (eventTarget) => {
   let yesWeapon = $(eventTarget).hasClass("weapon");
-  console.log(yesWeapon);
+  console.log("Is there a Weapon present?:", yesWeapon);
   if (yesWeapon) {
     return true;
   } else {
@@ -313,7 +314,9 @@ $("#player2_weapon").text('Pencil');
 $("#player1_damage").text('5');
 $("#player2_damage").text('5');
 
-const updatingPlayerStatsBox = (newWeapon_img, newWeapon, newDamage) => {
+const updatingPlayerStatsBox = (eventTarget) => {
+  let newWeapon = $(eventTarget).attr('data-weaponType');
+  let newDamage = $(eventTarget).attr('data-weaponDamage');
   //Entering data into the DOM
   if(activePlayer == player1){
     $("#player1_health").text(player1.health);
@@ -328,30 +331,30 @@ const updatingPlayerStatsBox = (newWeapon_img, newWeapon, newDamage) => {
   }
 }
 
-let player1_weaponIMG = $('#player1_weaponIMG');
-player1_weaponIMG.addClass('pencil');
-let player2_weaponIMG = $('#player2_weaponIMG');
-player2_weaponIMG.addClass('pencil');
+let player1_weaponImage = $('#player1_weaponImage');
+player1_weaponImage.addClass('pencil');
+let player2_weaponImage = $('#player2_weaponImage');
+player2_weaponImage.addClass('pencil');
 
-const weaponIMGBackground = (eventTarget, player) => {
-  let player1_weaponIMG = $('#player1_weaponIMG');
-  let player2_weaponIMG = $('#player2_weaponIMG');
-  player1_weaponIMG.removeClass('pencil');
-  player2_weaponIMG.removeClass('pencil');
+const weaponImageBackground = (eventTarget, player) => {
+  let player1_weaponImage = $('#player1_weaponImage');
+  let player2_weaponImage = $('#player2_weaponImage');
+  player1_weaponImage.removeClass('pencil');
+  player2_weaponImage.removeClass('pencil');
   let newWeapon = $(eventTarget).attr('data-weaponType');
   if ($(eventTarget).hasClass('weapon') && $(eventTarget).hasClass('player1')){
-      player1_weaponIMG.css('backgroundImage', $(eventTarget).css('backgroundImage')).css('backgroundRepeat', 'no-repeat').css('backgroundPosition', 'center');
-      console.log("It has weapon and player1");
+      player1_weaponImage.css('backgroundImage', $(eventTarget).css('backgroundImage')).css('backgroundRepeat', 'no-repeat').css('backgroundPosition', 'center');
+      // console.log("The square has both weapon and player1 classes");
   } else if ($(eventTarget).hasClass('weapon') && $(eventTarget).hasClass('player2')){
-      player2_weaponIMG.css('backgroundImage', $(eventTarget).css('backgroundImage')).css('backgroundRepeat', 'no-repeat').css('backgroundPosition', 'center');;
-      console.log("It has weapon and player2");
+      player2_weaponImage.css('backgroundImage', $(eventTarget).css('backgroundImage')).css('backgroundRepeat', 'no-repeat').css('backgroundPosition', 'center');;
+      // console.log("It has weapon and player2");
     }
 }
 
 const weaponPickUp = (eventTarget) => {
   let weaponCheck = isWeaponPresent(eventTarget);
   let newWeapon = $(eventTarget).attr('data-weaponType');
-  let newWeapon_img = `url(${$(eventTarget).attr('data-weaponType')})`;
+  // let newWeapon_img = `url(${$(eventTarget).attr('data-weaponType')})`;
   // console.log(newWeapon_img);
   let newDamage = $(eventTarget).attr('data-weaponDamage');
   let player1_weapon = $("#player1_weapon").text(player1.weaponType);
@@ -360,11 +363,11 @@ const weaponPickUp = (eventTarget) => {
   if (weaponCheck) {
     let oldWeaponName = activePlayer.weaponType
     let oldWeaponDamage = activePlayer.weaponDamage;
-    let oldWeaponImage = activePlayer.weaponIMG;
+    let oldWeaponImage = activePlayer.weaponImage;
     activePlayer.weaponType = newWeapon;
     activePlayer.weaponDamage = newDamage;
-    weaponIMGBackground(eventTarget, activePlayer.name);
-    updatingPlayerStatsBox(newWeapon_img, newWeapon, newDamage);
+    weaponImageBackground(eventTarget, activePlayer.name);
+    updatingPlayerStatsBox(eventTarget);
     $(eventTarget).attr('data-weaponType', oldWeaponName);
     $(eventTarget).attr('data-weaponDamage', oldWeaponDamage);
     $(eventTarget).attr('data-img', oldWeaponImage);
@@ -372,26 +375,35 @@ const weaponPickUp = (eventTarget) => {
 }
 
 //Modal Information
-const infoModalBattle = (newWeapon_img, newWeapon, newDamage) => {
+const infoModalBattle = () => {
   newWeapon = activePlayer.weaponType;
   newDamage = activePlayer.weaponDamage;
   if(activePlayer == player1){
+    player2.health = player2.health - newDamage;
     $('.modalOpponentNameDisplay').text(player2.displayName);
     $('.modalWeaponName').text(newWeapon);
-    $('.modalOpponentHealthDisplay').text(player2.health - newDamage);
+    $('.modalOpponentHealthDisplay').text(player2.health);
     $('.modalDamageDisplay').text(newDamage);
     $('.attackerModalImage').attr('id', 'player1');
     $('.defenderModalImage').attr('id', 'player2');
   } else if (activePlayer == player2){
+    player1.health = player1.health - newDamage;
     $('.modalOpponentNameDisplay').text(player1.displayName);
     $('.modalWeaponName').text(newWeapon);
-    $('.modalOpponentHealthDisplay').text(player1.health - newDamage);
+    $('.modalOpponentHealthDisplay').text(player1.health);
     $('.modalDamageDisplay').text(newDamage);
     $('.attackerModalImage').attr('id', 'player2');
     $('.defenderModalImage').attr('id', 'player1');
   }
 }
 
+const winnerSectionInfo = () => {
+  if(player1.health <= 0) {
+    $('.winnerModalName').text('Player 2');
+  } else if (player2.health <= 0) {
+    $('.winnerModalName').text('Player 1')
+  }
+}
 
 // Fight logic
 const canTheyFight = () => {
@@ -399,10 +411,10 @@ const canTheyFight = () => {
   let coordYPlayer1 = player1.position.y;
   let coordXPlayer2 = player2.position.x;
   let coordYPlayer2 = player2.position.y;
-  console.log("X Coord of Player1: ", coordXPlayer1);
-  console.log("X Coord of Player2: ", coordXPlayer2);
-  console.log("Y Coord of Player1: ", coordYPlayer1);
-  console.log("Y Coord of Player2: ", coordYPlayer2);
+  // console.log("X Coord of Player1: ", coordXPlayer1);
+  // console.log("X Coord of Player2: ", coordXPlayer2);
+  // console.log("Y Coord of Player1: ", coordYPlayer1);
+  // console.log("Y Coord of Player2: ", coordYPlayer2);
 
   if ( Math.abs(coordXPlayer1 - coordXPlayer2) == 1 && Math.abs(coordYPlayer1 - coordYPlayer2) == 0)  {
     console.log("Fight activated, player 1 and 2 are next to each other on the X axis!");
@@ -415,11 +427,24 @@ const canTheyFight = () => {
   }
 }
 
-const fightMode = () => {
+const fightMode = (eventTarget) => {
   if (canTheyFight()) {
     console.log(canTheyFight())
     $('#myModal').modal('show');
     infoModalBattle();
+    updatingPlayerStatsBox(eventTarget);
+  }
+  $("#player1_health").text(player1.health);
+  $("#player2_health").text(player2.health);
+}
+
+const winner = () => {
+  if(player1.health <= 0 || player2.health <= 0){
+    $('#myModal').hide();
+    console.log("Winner!");
+    $('.grid').hide();
+    winnerSectionInfo();
+    $('#winnerSection').show(); //Modal about Winner
   }
 }
 
@@ -437,32 +462,20 @@ $(document).ready(function (){
     movePlayer(eventTarget);
     weaponPickUp(eventTarget);
     canTheyFight();
-    fightMode();
-    console.log(activePlayer);
+    fightMode(eventTarget);
+    console.log("activePlayer: ", activePlayer);
     switchActivePlayer();
+    winner();
 
   });
 
 });
 
 
-//Function to check if a weapon is on event.target
-
-//Update player object with weapon objects and player should begin with a basic weapon
-//AND
-//Place old weapon on the old square
-
-//Use data attribute to store weapon name and power so you can access the info for the weapon when you click on a weapon square.
-
 //Map out the code logic (flow chart)
 //Refactor to Object Oriented JS (do no classes first)
 
 //Debug player movement and alerts
-
-
-
-
-
 
 //Function to recognize a player next to you
   //IF player's coordinates are +1 up,down,right or left from other player

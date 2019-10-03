@@ -1,3 +1,4 @@
+
 body {
   position: relative;
   z-index: 1000;
@@ -5,19 +6,37 @@ body {
 
 
 .main-header {
-  margin-top: 60px;
-  font-family: 'Bangers', Arial, cursive;
+  width: 100%;
+  height: 340px;
+  padding: 60px 0px 20px 0px;
+  font-family: 'UnifrakturCook', Arial, cursive;
+  background-color: rgb(34,139,34, 0.8);
+  /* background: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url('../images/stonewall.jpg'); */
+  color: #fff;
+  display: block;
+  position: relative;
 }
 
 .main-header h1 {
-  font-size: 5rem;
+  font-size: 7rem;
+  text-shadow: 5px 5px 4px rgba(0,0,0,0.67);
 }
 
 .main-header-text {
   margin-top: 30px;
   font-family: 'Raleway', sans-serif;
   font-size: 1.7rem;
+  text-shadow: 2px 2px 1px rgba(0,0,0,0.9);
 }
+
+.main-header-text-container {
+  margin: 0 auto;
+  text-align: center;
+  width: 60%;
+  /* background-color: rgb(34,139,34, 0.8); */
+  border-radius: 10px;
+}
+
 .grid {
   display: flex;
   flex-direction: row;
@@ -31,6 +50,7 @@ body {
   width: 1000px;
   height: 1000px;
   position: relative;
+  margin-top: 50px;
   margin-bottom: 30px;
 }
 .grid-item {
@@ -64,6 +84,15 @@ box-shadow: inset 1px 1px 8px 8px rgba(25,194,65,1);
   box-shadow: 0 0 15px #000;
 }
 
+.alertText {
+  font-size: 2rem;
+  text-align: center;
+}
+
+#modalLongTitle {
+  font-family: 'Bangers', Arial, cursive;
+  font-size: 4rem; 
+}
 
 [data-weaponType='Spear'] {
   background-image: url('../images/spear.png');
@@ -89,7 +118,7 @@ box-shadow: inset 1px 1px 8px 8px rgba(25,194,65,1);
 .player-stats {
   position: absolute;
   width: 100%;
-  top: 100px;
+  top: 320px;
   left: 0px;
   display: flex;
   justify-content: space-between;

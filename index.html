@@ -3,15 +3,19 @@
   <head>
     <meta charset="utf-8">
     <title>My Project 6 Game</title>
-    <link href="https://fonts.googleapis.com/css?family=Bangers|Raleway|Arimo&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Bangers|Raleway|Arimo|MedievalSharp|UnifrakturCook:700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <!-- BOOTSTRAP LINKS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   </head>
   <body>
     <div class="text-center main-header">
-      <h1>Javascript turn-based Game!</h1>
-      <p class="main-header-text">Pick up the weapons and try to win the battle!</p>
+      <div class="main-header-text-container">
+        <h1>Battle of Knights!</h1>
+        <p class="main-header-text">Pick up the weapons and try to win the battle against your opponent!
+        <br /> <u>Rules:</u> You can't jump over barriers and you can only move vertically or horizontally!
+        </p>
+      </div>
     </div>
     <section class="grid text-center">
       <div class="grid-container">
@@ -24,7 +28,7 @@
         <ul>
           <li>HP: <span id="player1_health"></span></li>
           <li>Weapon: <span id="player1_weapon"></span>
-            <div id="player1_weaponIMG" class="weapon-pic">
+            <div id="player1_weaponImage" class="weapon-pic">
 
             </div>
           </li>
@@ -36,7 +40,7 @@
         <ul>
           <li>HP: <span id="player2_health"></span></li>
           <li>Weapon: <span id="player2_weapon"></span>
-            <div id="player2_weaponIMG" class="weapon-pic">
+            <div id="player2_weaponImage" class="weapon-pic">
 
             </div>
           </li>
@@ -45,19 +49,67 @@
       </div>
     </section>
 
+    <!--Winner Section-->
+    <section id="winnerSection">
+      <h5 class="modal-title" id="exampleModalLongTitle"><span class="winnerModalName"></span> is the Winner!!</h5>
+    </section>
+
     <!--Modal Bootstrap-->
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <!--Alert Modals-->
+
+    <!--Barrier Alert-->
+    <div class="modal" id="barrierInTheWay" tabindex="-1" role="dialog">
+      <div class="modal-dialog model-sm" role="document">
         <div class="modal-content">
-          <div class="modal-header ">
-            <h1 class="col-12 modal-title text-center" id="exampleModalLongTitle">BATTLE MODE!!!</h1>
+          <div class="modal-header bg-danger">
+            <h3 class="modal-title" style="color: #fff">Sorry...</h3>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <p class="modalText">You attacked <span class="modalOpponentNameDisplay text-primary"></span> with a <span class="modalWeaponName font-italic text-success"></span> and dealt <span class="modalDamageDisplay text-danger"></span> damage. <span class="modalOpponentNameDisplay text-primary"></span> now has only <span class="modalOpponentHealthDisplay text-danger"></span> health left!</p>
+            <p class="alertText">You can't jump over or onto a barrier!</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Incorrect Move Alert-->
+    <div class="modal" id="wrongMoveModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog model-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header bg-danger">
+            <h3 class="modal-title" style="color: #fff">Sorry...</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p class="alertText">You can't move more than 3 spaces away and you can't move diagonally!</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Battle Modal-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header bg-success">
+            <h1 class="col-12 modal-title text-center" id="modalLongTitle" style="color: #fff">BATTLE!!!</h1>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-center">
+            <p class="modalText">You attacked <span class="modalOpponentNameDisplay text-primary"></span> with a <span class="modalWeaponName font-italic text-success"></span> and dealt <span class="modalDamageDisplay text-danger"></span> damage. <br />
+              <span class="modalOpponentNameDisplay text-primary"></span> now has only <span class="modalOpponentHealthDisplay text-danger"></span> health left!</p>
             <div class="container">
               <div class="row">
                 <div class="col-sm attackerModalImage modalImage">
