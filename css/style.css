@@ -91,7 +91,7 @@ box-shadow: inset 1px 1px 8px 8px rgba(25,194,65,1);
 
 #modalLongTitle {
   font-family: 'Bangers', Arial, cursive;
-  font-size: 4rem; 
+  font-size: 4rem;
 }
 
 [data-weaponType='Spear'] {
@@ -171,4 +171,18 @@ box-shadow: inset 1px 1px 8px 8px rgba(25,194,65,1);
 
 .defenderModalImage {
   background: url('../images/knight.png') center/90px 70px no-repeat;
+}
+
+/* Winner section */
+
+#winnerSection {
+  text-align: center;
+  color: #000;
+  position: relative;
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+
+.winnerSectionHeader {
+  font-family: 'Bangers', Arial, cursive;
 }
