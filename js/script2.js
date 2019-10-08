@@ -38,21 +38,26 @@ const weapons = [
     weaponType:"Sword",
     power: 20,
     img:"../images/sword.png",
+    weapon_url: "url('C:/Users/Nicole/Desktop/Complete Web Developer Course/Openclassrooms Projects/Project_6_game/images/sword.png')",
   },
   {
     weaponType:"Ax",
     power: 15,
     img:"../images/axe.png",
+    weapon_url: "url('C:/Users/Nicole/Desktop/Complete Web Developer Course/Openclassrooms Projects/Project_6_game/images/axe.png')",
+
   },
   {
     weaponType:"Archery",
     power: 30,
     img:"../images/archery.png",
+    weapon_url: "url('C:/Users/Nicole/Desktop/Complete Web Developer Course/Openclassrooms Projects/Project_6_game/images/archery.png')",
   },
   {
     weaponType:"Spear",
     power: 25,
     img:"../images/spear.png",
+    weapon_url: "url('C:/Users/Nicole/Desktop/Complete Web Developer Course/Openclassrooms Projects/Project_6_game/images/spear.png')",
   }
 ];
 
@@ -121,7 +126,7 @@ const createWeapon= (weapon) => {
     return createWeapon(weapon);
   } else {
     //ELSE add a class of 'weapon' and 'taken' to eventTarget square and also adds a random color.
-      $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass("weapon").addClass('taken').attr('data-weaponType', weapon.weaponType).attr('data-weaponDamage', weapon.power).attr('data-img', weapon.img);
+      $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass("weapon").addClass('taken').attr('data-weaponType', weapon.weaponType).attr('data-weaponDamage', weapon.power).attr('data-img', weapon.img).attr('data-weapon_url', weapon.weapon_url);
     }
 }
 
@@ -322,12 +327,10 @@ const updatingPlayerStatsBox = (eventTarget) => {
     $("#player1_health").text(player1.health);
     $("#player1_weapon").text(newWeapon);
     $("#player1_damage").text(newDamage);
-    // $('#player1_weaponImage').addClass(newWeapon.toLowerCase());
   } else {
     $("#player2_health").text(player2.health);
     $("#player2_weapon").text(newWeapon);
     $("#player2_damage").text(newDamage);
-    // $('#player2_weaponImage').addClass(newWeapon.toLowerCase());
   }
 }
 
@@ -342,16 +345,22 @@ const weaponImageBackground = (eventTarget, player) => {
   player1_weaponImage.removeClass('pencil');
   player2_weaponImage.removeClass('pencil');
   let newWeapon = $(eventTarget).attr('data-weaponType');
+  let url = $(eventTarget).attr('data-weapon_url')
   if ($(eventTarget).hasClass('weapon') && $(eventTarget).hasClass('player1')){
-      player1_weaponImage.css('backgroundImage', $(eventTarget).css('backgroundImage')).css('backgroundRepeat', 'no-repeat').css('backgroundPosition', 'center');
+      player1_weaponImage.css('background-image', $(eventTarget).attr('data-weapon_url')).css('backgroundRepeat', 'no-repeat').css('backgroundPosition', 'center');
       // console.log("The square has both weapon and player1 classes");
   } else if ($(eventTarget).hasClass('weapon') && $(eventTarget).hasClass('player2')){
-      player2_weaponImage.css('backgroundImage', $(eventTarget).css('backgroundImage')).css('backgroundRepeat', 'no-repeat').css('backgroundPosition', 'center');;
+      player2_weaponImage.css('background-image', $(eventTarget).attr('data-weapon_url')).css('backgroundRepeat', 'no-repeat').css('backgroundPosition', 'center');
       // console.log("It has weapon and player2");
     }
 }
 
 const weaponPickUp = (eventTarget) => {
+  if (activePlayer == player1)  {
+    $('#player1').removeAttr('id');
+  } else {
+    $('#player2').removeAttr('id');
+  }
   let weaponCheck = isWeaponPresent(eventTarget);
   let newWeapon = $(eventTarget).attr('data-weaponType');
   // let newWeapon_img = `url(${$(eventTarget).attr('data-weaponType')})`;
@@ -361,6 +370,11 @@ const weaponPickUp = (eventTarget) => {
   let player2_weapon = $("#player2_weapon").text(player2.weaponType);
 
   if (weaponCheck) {
+    if(activePlayer == player1){
+      $(eventTarget).attr('id', 'player1');
+    } else {
+      $(eventTarget).attr('id', 'player2');
+    }
     let oldWeaponName = activePlayer.weaponType
     let oldWeaponDamage = activePlayer.weaponDamage;
     let oldWeaponImage = activePlayer.weaponImage;
