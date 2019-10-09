@@ -1,6 +1,8 @@
 // const player1Username = prompt("Pick a username");
 // const player2Username = prompt("Pick a username");
 $('#winnerSection').hide(); //Hide the Winner section until the end of the game
+$('.pyro').hide(); //Hide the fireworks until the end of the game
+
 /*
 OBJECTS
 */
@@ -469,8 +471,13 @@ const winner = () => {
     $('.grid').hide();
     winnerSectionInfo();
     $('#winnerSection').show(); //Modal about Winner
+    $('.pyro').show(); //Modal about Winner
+    $('body').css('overflow', 'hidden');
   }
 }
+
+//Firework Animation Attempt
+
 
 //Game Set Up
 placeBarriers();
