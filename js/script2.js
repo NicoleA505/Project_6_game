@@ -7,165 +7,292 @@ $('.pyro').hide(); //Hide the fireworks until the end of the game
 OBJECTS
 */
 
-let player1 = {
-  name: "player1",
-  displayName: "Player 1",
-  health: 100,
-  position: {
-    x:0,
-    y:0,
+let gameSetup = {
+  player1: {
+    name: "player1",
+    displayName: "Player 1",
+    health: 100,
+    position: {
+      x:0,
+      y:0,
+    },
+    weaponType: "Pencil",
+    weaponDamage: 5,
+    weaponImage:"../images/pencil.png",
   },
-  weaponType: "Pencil",
-  weaponDamage: 5,
-  weaponImage:"../images/pencil.png",
-};
 
-let player2 = {
-  name: "player2",
-  displayName: "Player 2",
-  health: 100,
-  position: {
-    x:0,
-    y:0,
+  player2: {
+    name: "player2",
+    displayName: "Player 2",
+    health: 100,
+    position: {
+      x:0,
+      y:0,
+    },
+    weaponType: "Pencil",
+    weaponDamage: 5,
+    weaponImage:"../images/pencil.png",
   },
-  weaponType: "Pencil",
-  weaponDamage: 5,
-  weaponImage:"../images/pencil.png",
-};
 
-let activePlayer = player1;
+  activePlayer: this.player1,
 
-const weapons = [
-  {
-    weaponType:"Sword",
-    power: 20,
-    img:"../images/sword.png",
-    weapon_url: "url('C:/Users/nicol/Documents/GitHub/Project_6_game/images/sword.png')",
-  },
-  {
-    weaponType:"Ax",
-    power: 15,
-    img:"../images/axe.png",
-    weapon_url: "url('C:/Users/nicol/Documents/GitHub/Project_6_game/images/axe.png')",
+  weapons: [
+    {
+      weaponType:"Sword",
+      power: 20,
+      img:"../images/sword.png",
+      weapon_url: "url('C:/Users/nicol/Documents/GitHub/Project_6_game/images/sword.png')",
+    },
+    {
+      weaponType:"Ax",
+      power: 15,
+      img:"../images/axe.png",
+      weapon_url: "url('C:/Users/nicol/Documents/GitHub/Project_6_game/images/axe.png')",
 
+    },
+    {
+      weaponType:"Archery",
+      power: 30,
+      img:"../images/archery.png",
+      weapon_url: "url('C:/Users/nicol/Documents/GitHub/Project_6_game/images/archery.png')",
+    },
+    {
+      weaponType:"Spear",
+      power: 25,
+      img:"../images/spear.png",
+      weapon_url: "url('C:/Users/nicol/Documents/GitHub/Project_6_game/images/spear.png')",
+    }
+  ],
+
+  //Creates the grid with the class name on grid items for styles
+  gridCreator: function() {
+    for(let x = 1; x < 11; x++){ //creates the rows
+      for(let y = 1; y < 11; y++){ //creates the columns
+        $('.grid-container').append('<div class="grid-item" data-x="'+x+'" data-y="'+y+'"></div>')
+        //square '+x+', '+y+'   Add this between the div tags on the above line to see the coordinates again
+      }
+    }
   },
-  {
-    weaponType:"Archery",
-    power: 30,
-    img:"../images/archery.png",
-    weapon_url: "url('C:/Users/nicol/Documents/GitHub/Project_6_game/images/archery.png')",
+
+  randomNum: function() {
+    return Math.floor(Math.random() * (11 - 1) + 1);
   },
-  {
-    weaponType:"Spear",
-    power: 25,
-    img:"../images/spear.png",
-    weapon_url: "url('C:/Users/nicol/Documents/GitHub/Project_6_game/images/spear.png')",
+
+  //Creates a barrier at a random square
+  createBarrier: function() {
+    let coordinates = {
+      x: this.randomNum(),
+      y: this.randomNum()
+    };
+    let hasBarrier = $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).hasClass("barrier");
+    //If square with generated coordinates already has a class of barrier
+    if (hasBarrier){
+      return this.createBarrier();
+    } else {
+      //ELSE add a class of barrier to eventTarget square
+        $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass('barrier taken')
+      }
+  },
+
+  placeBarriers: function() {
+    for(let i = 0; i < 12; i++) {
+      this.createBarrier();
+    }
+  },
+  //Function that places weapons:
+  createWeapon: function(weapon) {
+    let coordinates = {
+      x: this.randomNum(),
+      y: this.randomNum()
+    };
+    let hasWeapon = $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).hasClass("weapon");
+    let isTaken = $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).hasClass("taken");
+    //If square with generated coordinates already has a class of barrier
+    if (isTaken || hasWeapon){
+      return this.createWeapon(weapon);
+    } else {
+      //ELSE add a class of 'weapon' and 'taken' to eventTarget square and also adds a random color.
+        $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass("weapon").addClass('taken').attr('data-weaponType', weapon.weaponType).attr('data-weaponDamage', weapon.power).attr('data-img', weapon.img).attr('data-weapon_url', weapon.weapon_url);
+      }
+  },
+
+  //Is a loop that takes the createWeapon() function and loops it 4 times to place 4 weapons on the grid.
+  placeWeapons: function() {
+    for(let i = 0; i < gameSetup.weapons.length; i++) {
+      this.createWeapon(gameSetup.weapons[i]);
+    }
+  },
+
+  placePlayer: function(player) {
+    let coordinates = {
+      x: this.randomNum(),
+      y: this.randomNum()
+    };
+    let isOccupied = $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).hasClass("barrier");
+    let isAlsoOccupied = $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).hasClass("taken");
+    if (isOccupied){
+      console.log("Barrier in the way of placing player");
+      return this.placePlayer(player);
+    } else if (isAlsoOccupied) {
+        return this.placePlayer(player);
+    } else {
+      //ELSE add a class of player1 or 2 to eventTarget square
+        $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass(player["name"]).addClass("taken");
+        player["position"].x = coordinates.x;
+        player["position"].y = coordinates.y;
+      }
   }
-];
+} //End of gameSetup Object
+gameSetup.gridCreator();
+
+
+// let player1 = {
+//   name: "player1",
+//   displayName: "Player 1",
+//   health: 100,
+//   position: {
+//     x:0,
+//     y:0,
+//   },
+//   weaponType: "Pencil",
+//   weaponDamage: 5,
+//   weaponImage:"../images/pencil.png",
+// };
+
+// let player2 = {
+//   name: "player2",
+//   displayName: "Player 2",
+//   health: 100,
+//   position: {
+//     x:0,
+//     y:0,
+//   },
+//   weaponType: "Pencil",
+//   weaponDamage: 5,
+//   weaponImage:"../images/pencil.png",
+// };
+
+// let activePlayer = player1;
+
+// const weapons = [
+//   {
+//     weaponType:"Sword",
+//     power: 20,
+//     img:"../images/sword.png",
+//     weapon_url: "url('C:/Users/nicol/Documents/GitHub/Project_6_game/images/sword.png')",
+//   },
+//   {
+//     weaponType:"Ax",
+//     power: 15,
+//     img:"../images/axe.png",
+//     weapon_url: "url('C:/Users/nicol/Documents/GitHub/Project_6_game/images/axe.png')",
+//
+//   },
+//   {
+//     weaponType:"Archery",
+//     power: 30,
+//     img:"../images/archery.png",
+//     weapon_url: "url('C:/Users/nicol/Documents/GitHub/Project_6_game/images/archery.png')",
+//   },
+//   {
+//     weaponType:"Spear",
+//     power: 25,
+//     img:"../images/spear.png",
+//     weapon_url: "url('C:/Users/nicol/Documents/GitHub/Project_6_game/images/spear.png')",
+//   }
+// ];
 
 /*
 FUNCTIONS
 */
-//Creates the grid with the class name on grid items for styles
-const gridCreator = () => {
-  for(let x = 1; x < 11; x++){ //creates the rows
-    for(let y = 1; y < 11; y++){ //creates the columns
-      $('.grid-container').append('<div class="grid-item" data-x="'+x+'" data-y="'+y+'"></div>')
-      //square '+x+', '+y+'   Add this between the div tags on the above line to see the coordinates again
-    }
-  }
-}
-gridCreator();
+// //Creates the grid with the class name on grid items for styles
+// const gridCreator = () => {
+//   for(let x = 1; x < 11; x++){ //creates the rows
+//     for(let y = 1; y < 11; y++){ //creates the columns
+//       $('.grid-container').append('<div class="grid-item" data-x="'+x+'" data-y="'+y+'"></div>')
+//       //square '+x+', '+y+'   Add this between the div tags on the above line to see the coordinates again
+//     }
+//   }
+// }
+// gridCreator();
 
-const randomNum = () => {
-  return Math.floor(Math.random() * (11 - 1) + 1);
-}
-
-//Generates a random color.
-const getRandomColor = () => {
-  var letters = '0123456789ABCDEF';
-  var color = '#';
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
+// const randomNum = () => {
+//   return Math.floor(Math.random() * (11 - 1) + 1);
+// }
 
 
-//Creates a barrier at a random square
-const createBarrier = () => {
-  let coordinates = {
-    x: randomNum(),
-    y: randomNum()
-  };
-  let hasBarrier = $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).hasClass("barrier");
-  //If square with generated coordinates already has a class of barrier
-  if (hasBarrier){
-    return createBarrier();
-  } else {
-    //ELSE add a class of barrier to eventTarget square
-      $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass('barrier taken')
-    }
-}
+// //Creates a barrier at a random square
+// const createBarrier = () => {
+//   let coordinates = {
+//     x: randomNum(),
+//     y: randomNum()
+//   };
+//   let hasBarrier = $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).hasClass("barrier");
+//   //If square with generated coordinates already has a class of barrier
+//   if (hasBarrier){
+//     return createBarrier();
+//   } else {
+//     //ELSE add a class of barrier to eventTarget square
+//       $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass('barrier taken')
+//     }
+// }
 //Is a loop that takes the createBarrier() function and loops it 12 times to make 12 barriers on the grid
-const placeBarriers = () => {
-  for(let i = 0; i < 12; i++) {
-    createBarrier();
-  }
-}
+// const placeBarriers = () => {
+//   for(let i = 0; i < 12; i++) {
+//     createBarrier();
+//   }
+// }
 
 
+// //Function that places weapons:
+// const createWeapon= (weapon) => {
+//   let coordinates = {
+//     x: randomNum(),
+//     y: randomNum()
+//   };
+//   let hasWeapon = $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).hasClass("weapon");
+//   let isTaken = $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).hasClass("taken");
+//   //If square with generated coordinates already has a class of barrier
+//   if (isTaken || hasWeapon){
+//     return createWeapon(weapon);
+//   } else {
+//     //ELSE add a class of 'weapon' and 'taken' to eventTarget square and also adds a random color.
+//       $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass("weapon").addClass('taken').attr('data-weaponType', weapon.weaponType).attr('data-weaponDamage', weapon.power).attr('data-img', weapon.img).attr('data-weapon_url', weapon.weapon_url);
+//     }
+// }
 
-//Function that places weapons:
-const createWeapon= (weapon) => {
-  let coordinates = {
-    x: randomNum(),
-    y: randomNum()
-  };
-  let hasWeapon = $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).hasClass("weapon");
-  let isTaken = $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).hasClass("taken");
-  //If square with generated coordinates already has a class of barrier
-  if (isTaken || hasWeapon){
-    return createWeapon(weapon);
-  } else {
-    //ELSE add a class of 'weapon' and 'taken' to eventTarget square and also adds a random color.
-      $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass("weapon").addClass('taken').attr('data-weaponType', weapon.weaponType).attr('data-weaponDamage', weapon.power).attr('data-img', weapon.img).attr('data-weapon_url', weapon.weapon_url);
-    }
-}
-
-//Is a loop that takes the createWeapon() function and loops it 4 times to place 4 weapons on the grid.
-const placeWeapons = () => {
-  for(let i = 0; i < weapons.length; i++) {
-    createWeapon(weapons[i]);
-  }
-}
+// //Is a loop that takes the createWeapon() function and loops it 4 times to place 4 weapons on the grid.
+// const placeWeapons = () => {
+//   for(let i = 0; i < weapons.length; i++) {
+//     createWeapon(weapons[i]);
+//   }
+// }
 
 
-const placePlayer = (player) => {
-  let coordinates = {
-    x: randomNum(),
-    y: randomNum()
-  };
-  let isOccupied = $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).hasClass("barrier");
-  let isAlsoOccupied = $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).hasClass("taken");
-  if (isOccupied){
-    console.log("Barrier in the way of placing player");
-    return placePlayer(player);
-  } else if (isAlsoOccupied) {
-      return placePlayer(player);
-  } else {
-    //ELSE add a class of player1 or 2 to eventTarget square
-      $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass(player["name"]).addClass("taken");
-      player["position"].x = coordinates.x;
-      player["position"].y = coordinates.y;
-    }
-}
+// const placePlayer = (player) => {
+//   let coordinates = {
+//     x: randomNum(),
+//     y: randomNum()
+//   };
+//   let isOccupied = $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).hasClass("barrier");
+//   let isAlsoOccupied = $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).hasClass("taken");
+//   if (isOccupied){
+//     console.log("Barrier in the way of placing player");
+//     return placePlayer(player);
+//   } else if (isAlsoOccupied) {
+//       return placePlayer(player);
+//   } else {
+//     //ELSE add a class of player1 or 2 to eventTarget square
+//       $(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`).addClass(player["name"]).addClass("taken");
+//       player["position"].x = coordinates.x;
+//       player["position"].y = coordinates.y;
+//     }
+// }
 
 //Player Movement
 const createTempArray = (eventTarget) => {
-  // console.log('eventTarget from createTempArray', eventTarget);
-  let activePlayerPositionX = parseInt(activePlayer.position.x);
-  let activePlayerPositionY = parseInt(activePlayer.position.y);
+  let activePlayerPositionX = parseInt(gameSetup.activePlayer.position.x);
+  let activePlayerPositionY = parseInt(gameSetup.activePlayer.position.y);
   let squarePositionX = parseInt($(eventTarget).attr('data-x'));
   let squarePositionY = parseInt($(eventTarget).attr('data-y'));
   // console.log('activePlayerPositionX,activePlayerPositionY', typeof activePlayerPositionX,activePlayerPositionY);
@@ -227,7 +354,7 @@ const canPlayerMove = (eventTarget, tempArray) => {
 }
 
 let activePlayer_Highlight = () => {
-  if(activePlayer == player1) {
+  if(gameSetup.activePlayer == gameSetup.player1) {
     $('#infoBox_player1').css('box-shadow', '1px 1px 10px 10px rgba(8,128,46,1)');
     $('#turnText1').show();
     $('#infoBox_player2').css('box-shadow', 'none');
@@ -244,23 +371,26 @@ activePlayer_Highlight();
 const movePlayer = (eventTarget) => {
   let isItMoving = canPlayerMove(eventTarget, createTempArray(eventTarget));
   let canPlayerReallyMove = createTempArray(eventTarget);
-  if(isItMoving && activePlayer == player1) {
+  if(isItMoving && gameSetup.activePlayer == gameSetup.player1) {
     $('.player1').removeClass('player1');
-    activePlayer.position.x = $(eventTarget).attr('data-x');
-    activePlayer.position.y = $(eventTarget).attr('data-y');
+    gameSetup.activePlayer.position.x = $(eventTarget).attr('data-x');
+    gameSetup.activePlayer.position.y = $(eventTarget).attr('data-y');
     $(eventTarget).addClass('player1');
-  } else if (isItMoving && activePlayer == player2) {
+  } else if (isItMoving && activePlayer == gameSetup.player2) {
     $('.player2').removeClass('player2');
-    activePlayer.position.x = $(eventTarget).attr('data-x');
-    activePlayer.position.y = $(eventTarget).attr('data-y');
+    gameSetup.activePlayer.position.x = $(eventTarget).attr('data-x');
+    gameSetup.activePlayer.position.y = $(eventTarget).attr('data-y');
     $(eventTarget).addClass('player2');
   }
+  weaponPickUp(eventTarget);
+  canTheyFight();
+  fightMode(eventTarget);
 }
 
 //Function: did they click within 3 spaces?
 const isWithin3Spaces = (eventTarget) => {
-  let activePlayerPositionX = activePlayer.position.x;
-  let activePlayerPositionY = activePlayer.position.y;
+  let activePlayerPositionX = gameSetup.activePlayer.position.x;
+  let activePlayerPositionY = gameSetup.activePlayer.position.y;
   let squarePositionX = $(eventTarget).attr('data-x');
   let squarePositionY = $(eventTarget).attr('data-y');
   let positionXDiff = Math.abs(activePlayerPositionX - parseInt(squarePositionX));
@@ -309,11 +439,11 @@ const barrierCheck = (tempArray) => { //return boolean
 }
 
 const switchActivePlayer = () => {
-    if(activePlayer == player1) {
-      activePlayer = player2;
+    if(gameSetup.activePlayer == gameSetup.player1) {
+      gameSetup.activePlayer = gameSetup.player2;
       activePlayer_Highlight();
-    } else if (activePlayer === player2) {
-      activePlayer = player1;
+    } else if (gameSetup.activePlayer === gameSetup.player2) {
+      gameSetup.activePlayer = gameSetup.player1;
       activePlayer_Highlight();
     }
 }
@@ -328,8 +458,8 @@ const isWeaponPresent = (eventTarget) => {
   }
 }
 
-$("#player1_health").text(player1.health);
-$("#player2_health").text(player2.health);
+$("#player1_health").text(gameSetup.player1.health);
+$("#player2_health").text(gameSetup.player2.health);
 $("#player1_weapon").text('Pencil');
 $("#player2_weapon").text('Pencil');
 $("#player1_damage").text('5');
@@ -339,12 +469,12 @@ const updatingPlayerStatsBox = (eventTarget) => {
   let newWeapon = $(eventTarget).attr('data-weaponType');
   let newDamage = $(eventTarget).attr('data-weaponDamage');
   //Entering data into the DOM
-  if(activePlayer == player1){
-    $("#player1_health").text(player1.health);
+  if(gameSetup.activePlayer == gameSetup.player1){
+    $("#player1_health").text(gameSetup.player1.health);
     $("#player1_weapon").text(newWeapon);
     $("#player1_damage").text(newDamage);
   } else {
-    $("#player2_health").text(player2.health);
+    $("#player2_health").text(gameSetup.player2.health);
     $("#player2_weapon").text(newWeapon);
     $("#player2_damage").text(newDamage);
   }
@@ -370,7 +500,7 @@ const weaponImageBackground = (eventTarget, player) => {
 }
 
 const weaponPickUp = (eventTarget) => {
-  if (activePlayer == player1)  {
+  if (gameSetup.activePlayer == gameSetup.player1)  {
     $('#player1').removeAttr('id');
   } else {
     $('#player2').removeAttr('id');
@@ -380,21 +510,21 @@ const weaponPickUp = (eventTarget) => {
   // let newWeapon_img = `url(${$(eventTarget).attr('data-weaponType')})`;
   // console.log(newWeapon_img);
   let newDamage = $(eventTarget).attr('data-weaponDamage');
-  let player1_weapon = $("#player1_weapon").text(player1.weaponType);
-  let player2_weapon = $("#player2_weapon").text(player2.weaponType);
+  let player1_weapon = $("#player1_weapon").text(gameSetup.player1.weaponType);
+  let player2_weapon = $("#player2_weapon").text(gameSetup.player2.weaponType);
 
   if (weaponCheck) {
-    if(activePlayer == player1){
+    if(gameSetup.activePlayer == gameSetup.player1){
       $(eventTarget).attr('id', 'player1');
     } else {
       $(eventTarget).attr('id', 'player2');
     }
-    let oldWeaponName = activePlayer.weaponType
-    let oldWeaponDamage = activePlayer.weaponDamage;
-    let oldWeaponImage = activePlayer.weaponImage;
-    activePlayer.weaponType = newWeapon;
-    activePlayer.weaponDamage = newDamage;
-    weaponImageBackground(eventTarget, activePlayer.name);
+    let oldWeaponName = gameSetup.activePlayer.weaponType
+    let oldWeaponDamage = gameSetup.activePlayer.weaponDamage;
+    let oldWeaponImage = gameSetup.activePlayer.weaponImage;
+    gameSetup.activePlayer.weaponType = newWeapon;
+    gameSetup.activePlayer.weaponDamage = newDamage;
+    weaponImageBackground(eventTarget, gameSetup.activePlayer.name);
     updatingPlayerStatsBox(eventTarget);
     $(eventTarget).attr('data-weaponType', oldWeaponName);
     $(eventTarget).attr('data-weaponDamage', oldWeaponDamage);
@@ -404,21 +534,21 @@ const weaponPickUp = (eventTarget) => {
 
 //Modal Information
 const infoModalBattle = () => {
-  newWeapon = activePlayer.weaponType;
-  newDamage = activePlayer.weaponDamage;
-  if(activePlayer == player1){
-    player2.health = player2.health - newDamage;
-    $('.modalOpponentNameDisplay').text(player2.displayName);
+  newWeapon = gameSetup.activePlayer.weaponType;
+  newDamage = gameSetup.activePlayer.weaponDamage;
+  if(gameSetup.activePlayer == gameSetup.player1){
+    gameSetup.player2.health = gameSetup.player2.health - newDamage;
+    $('.modalOpponentNameDisplay').text(gameSetup.player2.displayName);
     $('.modalWeaponName').text(newWeapon);
-    $('.modalOpponentHealthDisplay').text(player2.health);
+    $('.modalOpponentHealthDisplay').text(gameSetup.player2.health);
     $('.modalDamageDisplay').text(newDamage);
     $('.attackerModalImage').attr('id', 'player1');
     $('.defenderModalImage').attr('id', 'player2');
-  } else if (activePlayer == player2){
-    player1.health = player1.health - newDamage;
-    $('.modalOpponentNameDisplay').text(player1.displayName);
+  } else if (gameSetup.activePlayer == gameSetup.player2){
+    gameSetup.player1.health = gameSetup.player1.health - newDamage;
+    $('.modalOpponentNameDisplay').text(gameSetup.player1.displayName);
     $('.modalWeaponName').text(newWeapon);
-    $('.modalOpponentHealthDisplay').text(player1.health);
+    $('.modalOpponentHealthDisplay').text(gameSetup.player1.health);
     $('.modalDamageDisplay').text(newDamage);
     $('.attackerModalImage').attr('id', 'player2');
     $('.defenderModalImage').attr('id', 'player1');
@@ -426,10 +556,10 @@ const infoModalBattle = () => {
 }
 
 const winnerSectionInfo = () => {
-  if(player1.health <= 0) {
+  if(gameSetup.player1.health <= 0) {
     $('.winnerModalName').text('Player 2');
     $('.winnerSection_PlayerImage').attr('id', 'player2_Winner');
-  } else if (player2.health <= 0) {
+  } else if (gameSetu.player2.health <= 0) {
     $('.winnerModalName').text('Player 1')
     $('.winnerSection_PlayerImage').attr('id', 'player1_Winner');
   }
@@ -437,10 +567,10 @@ const winnerSectionInfo = () => {
 
 // Fight logic
 const canTheyFight = () => {
-  let coordXPlayer1 = player1.position.x;
-  let coordYPlayer1 = player1.position.y;
-  let coordXPlayer2 = player2.position.x;
-  let coordYPlayer2 = player2.position.y;
+  let coordXPlayer1 = gameSetup.player1.position.x;
+  let coordYPlayer1 = gameSetup.player1.position.y;
+  let coordXPlayer2 = gameSetup.player2.position.x;
+  let coordYPlayer2 = gameSetup.player2.position.y;
 
   if ( Math.abs(coordXPlayer1 - coordXPlayer2) == 1 && Math.abs(coordYPlayer1 - coordYPlayer2) == 0)  {
     console.log("Fight activated, player 1 and 2 are next to each other on the X axis!");
@@ -460,12 +590,12 @@ const fightMode = (eventTarget) => {
     infoModalBattle();
     updatingPlayerStatsBox(eventTarget);
   }
-  $("#player1_health").text(player1.health);
-  $("#player2_health").text(player2.health);
+  $("#player1_health").text(gameSetup.player1.health);
+  $("#player2_health").text(gameSetup.player2.health);
 }
 
 const winner = () => {
-  if(player1.health <= 0 || player2.health <= 0){
+  if(gameSetup.player1.health <= 0 || gameSetup.player2.health <= 0){
     $('#myModal').hide();
     console.log("Winner!");
     $('.grid').hide();
@@ -480,10 +610,10 @@ const winner = () => {
 
 
 //Game Set Up
-placeBarriers();
-placeWeapons();
-placePlayer(player1);
-placePlayer(player2);
+gameSetup.placeBarriers();
+gameSetup.placeWeapons();
+gameSetup.placePlayer(gameSetup.player1);
+gameSetup.placePlayer(gameSetup.player2);
 
 /*EVENT LISTENERS*/
 $(document).ready(function (){
@@ -491,13 +621,8 @@ $(document).ready(function (){
   $(document).on('click', '.grid-item', () => {
     let eventTarget = event.target;
     movePlayer(eventTarget);
-    weaponPickUp(eventTarget);
-    canTheyFight();
-    fightMode(eventTarget);
-    console.log("activePlayer: ", activePlayer);
     switchActivePlayer();
     winner();
-
   });
 
   $('#refresh').click(function() {
