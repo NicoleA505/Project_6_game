@@ -1,7 +1,6 @@
 
 body {
   position: relative;
-  z-index: 1000;
 }
 
 
@@ -9,9 +8,8 @@ body {
   width: 100%;
   height: 340px;
   padding: 60px 0px 20px 0px;
-  font-family: 'UnifrakturCook', Arial, cursive;
+  font-family: 'UnifrakturCook', Arial, sans-serif;
   background-color: rgb(34,139,34, 0.8);
-  /* background: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url('../images/stonewall.jpg'); */
   color: #fff;
   display: block;
   position: relative;
@@ -33,7 +31,6 @@ body {
   margin: 0 auto;
   text-align: center;
   width: 60%;
-  /* background-color: rgb(34,139,34, 0.8); */
   border-radius: 10px;
 }
 
@@ -55,7 +52,8 @@ body {
 }
 .grid-item {
   background-color: white;
-  border: 1px solid #DCDCDC;
+  border: 1px solid #939393;
+  /* Lighter grey = #DCDCDC */
   border-radius: 10px;
 }
 .barrier{
@@ -140,6 +138,11 @@ box-shadow: inset 1px 1px 8px 8px rgba(25,194,65,1);
   margin-left: -30px;
 }
 
+.turnText {
+  color: rgb(34,139,34);
+  font-weight: bold;
+}
+
 .weapon-pic {
   width: 80px;
   height: 80px;
@@ -183,7 +186,52 @@ box-shadow: inset 1px 1px 8px 8px rgba(25,194,65,1);
   margin-bottom: 30px;
 }
 
+#player1_Winner {
+  background: url('../images/helmet.png') center/300px 250px no-repeat;
+  margin-left: -20px;
+}
+
+#player2_Winner {
+  background: url('../images/knight.png') center/300px 250px no-repeat;
+}
+
 .winnerSectionHeader {
   font-family: 'Bangers', Arial, cursive;
-  font-size: 6rem;
+  font-size: 5rem;
+}
+
+.winnerSection_PlayerImage {
+  height: 300px;
+  width: 100%;
+}
+
+@keyframes    firework-animation {
+    0% {background-color : #ff8426;}
+    25% {background-color : #fffc84;}
+    50% {background-color : #ff83f4;}
+    75% {background-color : #83b6ff;}
+    100% {background-color : #ff8426;}
+}
+@-webkit-keyframes firework-animation {
+    0% {background-color : #ff8426;}
+    25% {background-color : #fffc84;}
+    50% {background-color : #ff83f4;}
+    75% {background-color : #83b6ff;}
+    100% {background-color : #ff8426;}
+}
+.fireWorkParticle {
+    z-index : 999;
+    position: absolute;
+    height : 5px;
+    width : 5px;
+    border-radius : 5px;
+    animation-name : firework-animation;
+    animation-timing-function : linear;
+    animation-duration : 1s;
+    animation-iteration-count : infinite;
+}
+
+#refresh {
+  font-size: 3rem;
+  border-radius: 10px;
 }

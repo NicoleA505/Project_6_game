@@ -38,26 +38,26 @@ const weapons = [
     weaponType:"Sword",
     power: 20,
     img:"../images/sword.png",
-    weapon_url: "url('C:/Users/Nicole/Desktop/Complete Web Developer Course/Openclassrooms Projects/Project_6_game/images/sword.png')",
+    weapon_url: "url('C:/Users/nicol/Documents/GitHub/Project_6_game/images/sword.png')",
   },
   {
     weaponType:"Ax",
     power: 15,
     img:"../images/axe.png",
-    weapon_url: "url('C:/Users/Nicole/Desktop/Complete Web Developer Course/Openclassrooms Projects/Project_6_game/images/axe.png')",
+    weapon_url: "url('C:/Users/nicol/Documents/GitHub/Project_6_game/images/axe.png')",
 
   },
   {
     weaponType:"Archery",
     power: 30,
     img:"../images/archery.png",
-    weapon_url: "url('C:/Users/Nicole/Desktop/Complete Web Developer Course/Openclassrooms Projects/Project_6_game/images/archery.png')",
+    weapon_url: "url('C:/Users/nicol/Documents/GitHub/Project_6_game/images/archery.png')",
   },
   {
     weaponType:"Spear",
     power: 25,
     img:"../images/spear.png",
-    weapon_url: "url('C:/Users/Nicole/Desktop/Complete Web Developer Course/Openclassrooms Projects/Project_6_game/images/spear.png')",
+    weapon_url: "url('C:/Users/nicol/Documents/GitHub/Project_6_game/images/spear.png')",
   }
 ];
 
@@ -68,7 +68,8 @@ FUNCTIONS
 const gridCreator = () => {
   for(let x = 1; x < 11; x++){ //creates the rows
     for(let y = 1; y < 11; y++){ //creates the columns
-      $('.grid-container').append('<div class="grid-item" data-x="'+x+'" data-y="'+y+'">square '+x+', '+y+'</div>')
+      $('.grid-container').append('<div class="grid-item" data-x="'+x+'" data-y="'+y+'"></div>')
+      //square '+x+', '+y+'   Add this between the div tags on the above line to see the coordinates again
     }
   }
 }
@@ -223,13 +224,24 @@ const canPlayerMove = (eventTarget, tempArray) => {
   }
 }
 
-const movePlayer = (eventTarget) => {
-  // console.log('eventTarget from movePlayer', eventTarget);
+let activePlayer_Highlight = () => {
+  if(activePlayer == player1) {
+    $('#infoBox_player1').css('box-shadow', '1px 1px 10px 10px rgba(8,128,46,1)');
+    $('#turnText1').show();
+    $('#infoBox_player2').css('box-shadow', 'none');
+    $('#turnText2').hide();
+  } else {
+    $('#infoBox_player2').css('box-shadow', '1px 1px 10px 10px rgba(194,25,25,1)');
+    $('#turnText2').show();
+    $('#infoBox_player1').css('box-shadow', 'none');
+    $('#turnText1').hide();
+  }
+}
+activePlayer_Highlight();
 
-  // console.log('tempArrayProd', tempArray);
+const movePlayer = (eventTarget) => {
   let isItMoving = canPlayerMove(eventTarget, createTempArray(eventTarget));
   let canPlayerReallyMove = createTempArray(eventTarget);
-  // console.log('canPlayerReallyMove', canPlayerReallyMove);
   if(isItMoving && activePlayer == player1) {
     $('.player1').removeClass('player1');
     activePlayer.position.x = $(eventTarget).attr('data-x');
@@ -242,8 +254,8 @@ const movePlayer = (eventTarget) => {
     $(eventTarget).addClass('player2');
   }
 }
-//
-// //Function: did they click within 3 spaces?
+
+//Function: did they click within 3 spaces?
 const isWithin3Spaces = (eventTarget) => {
   let activePlayerPositionX = activePlayer.position.x;
   let activePlayerPositionY = activePlayer.position.y;
@@ -297,8 +309,10 @@ const barrierCheck = (tempArray) => { //return boolean
 const switchActivePlayer = () => {
     if(activePlayer == player1) {
       activePlayer = player2;
+      activePlayer_Highlight();
     } else if (activePlayer === player2) {
       activePlayer = player1;
+      activePlayer_Highlight();
     }
 }
 
@@ -342,16 +356,14 @@ player2_weaponImage.addClass('pencil');
 const weaponImageBackground = (eventTarget, player) => {
   let player1_weaponImage = $('#player1_weaponImage');
   let player2_weaponImage = $('#player2_weaponImage');
-  player1_weaponImage.removeClass('pencil');
-  player2_weaponImage.removeClass('pencil');
   let newWeapon = $(eventTarget).attr('data-weaponType');
   let url = $(eventTarget).attr('data-weapon_url')
   if ($(eventTarget).hasClass('weapon') && $(eventTarget).hasClass('player1')){
       player1_weaponImage.css('background-image', $(eventTarget).attr('data-weapon_url')).css('backgroundRepeat', 'no-repeat').css('backgroundPosition', 'center');
-      // console.log("The square has both weapon and player1 classes");
+      player1_weaponImage.removeClass('pencil');
   } else if ($(eventTarget).hasClass('weapon') && $(eventTarget).hasClass('player2')){
       player2_weaponImage.css('background-image', $(eventTarget).attr('data-weapon_url')).css('backgroundRepeat', 'no-repeat').css('backgroundPosition', 'center');
-      // console.log("It has weapon and player2");
+      player2_weaponImage.removeClass('pencil');
     }
 }
 
@@ -414,8 +426,10 @@ const infoModalBattle = () => {
 const winnerSectionInfo = () => {
   if(player1.health <= 0) {
     $('.winnerModalName').text('Player 2');
+    $('.winnerSection_PlayerImage').attr('id', 'player2_Winner');
   } else if (player2.health <= 0) {
     $('.winnerModalName').text('Player 1')
+    $('.winnerSection_PlayerImage').attr('id', 'player1_Winner');
   }
 }
 
@@ -425,10 +439,6 @@ const canTheyFight = () => {
   let coordYPlayer1 = player1.position.y;
   let coordXPlayer2 = player2.position.x;
   let coordYPlayer2 = player2.position.y;
-  // console.log("X Coord of Player1: ", coordXPlayer1);
-  // console.log("X Coord of Player2: ", coordXPlayer2);
-  // console.log("Y Coord of Player1: ", coordYPlayer1);
-  // console.log("Y Coord of Player2: ", coordYPlayer2);
 
   if ( Math.abs(coordXPlayer1 - coordXPlayer2) == 1 && Math.abs(coordYPlayer1 - coordYPlayer2) == 0)  {
     console.log("Fight activated, player 1 and 2 are next to each other on the X axis!");
@@ -482,6 +492,10 @@ $(document).ready(function (){
     winner();
 
   });
+
+  $('#refresh').click(function() {
+    location.reload();
+});
 
 });
 

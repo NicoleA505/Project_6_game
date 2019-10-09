@@ -23,8 +23,8 @@
       </div>
     </section>
     <section class="player-stats">
-      <div class="infoBox">
-        <h3>Player 1</h3>
+      <div id="infoBox_player1" class="infoBox">
+        <h3>Player 1<span id="turnText1" class="turnText">'s Turn</span></h3>
         <ul>
           <li>HP: <span id="player1_health"></span></li>
           <li>Weapon: <span id="player1_weapon"></span>
@@ -35,8 +35,8 @@
           <li>Damage Power: <span id="player1_damage"></span></li>
         </ul>
       </div>
-      <div class="infoBox">
-        <h3>Player 2</h3>
+      <div id="infoBox_player2" class="infoBox">
+        <h3>Player 2<span id="turnText2" class="turnText">'s Turn</span></h3>
         <ul>
           <li>HP: <span id="player2_health"></span></li>
           <li>Weapon: <span id="player2_weapon"></span>
@@ -52,6 +52,8 @@
     <!--Winner Section-->
     <section id="winnerSection">
       <h1 class="winnerSectionHeader">Congratulations! <br /><span class="winnerModalName"></span><br />You are the Winner!!</h1>
+      <div class="winnerSection_PlayerImage"></div>
+      <button type="button" id="refresh" class="btn btn-lg btn-outline-success">Play Again?</button>
     </section>
 
     <!--Modal Bootstrap-->
