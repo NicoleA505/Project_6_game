@@ -1,5 +1,3 @@
-// const player1Username = prompt("Pick a username");
-// const player2Username = prompt("Pick a username");
 $('#winnerSection').hide(); //Hide the Winner section until the end of the game
 $('.pyro').hide(); //Hide the fireworks until the end of the game
 
@@ -34,33 +32,31 @@ let gameSetup = {
     weaponImage:"../images/pencil.png",
   },
 
-  activePlayer: this.player1,
-
   weapons: [
     {
       weaponType:"Sword",
       power: 20,
       img:"../images/sword.png",
-      weapon_url: "url('C:/Users/nicol/Documents/GitHub/Project_6_game/images/sword.png')",
+      weapon_url: "url('../images/sword.png')",
     },
     {
       weaponType:"Ax",
       power: 15,
       img:"../images/axe.png",
-      weapon_url: "url('C:/Users/nicol/Documents/GitHub/Project_6_game/images/axe.png')",
+      weapon_url: "url('../images/axe.png')",
 
     },
     {
       weaponType:"Archery",
       power: 30,
       img:"../images/archery.png",
-      weapon_url: "url('C:/Users/nicol/Documents/GitHub/Project_6_game/images/archery.png')",
+      weapon_url: "url('../images/archery.png')",
     },
     {
       weaponType:"Spear",
       power: 25,
       img:"../images/spear.png",
-      weapon_url: "url('C:/Users/nicol/Documents/GitHub/Project_6_game/images/spear.png')",
+      weapon_url: "url('../images/spear.png')",
     }
   ],
 
@@ -143,7 +139,10 @@ let gameSetup = {
       }
   }
 } //End of gameSetup Object
+
+let activePlayer = gameSetup.player1;
 gameSetup.gridCreator();
+
 
 
 // let player1 = {
@@ -291,8 +290,8 @@ FUNCTIONS
 
 //Player Movement
 const createTempArray = (eventTarget) => {
-  let activePlayerPositionX = parseInt(gameSetup.activePlayer.position.x);
-  let activePlayerPositionY = parseInt(gameSetup.activePlayer.position.y);
+let activePlayerPositionX = parseInt(activePlayer.position.x);
+let activePlayerPositionY = parseInt(activePlayer.position.y);
   let squarePositionX = parseInt($(eventTarget).attr('data-x'));
   let squarePositionY = parseInt($(eventTarget).attr('data-y'));
   // console.log('activePlayerPositionX,activePlayerPositionY', typeof activePlayerPositionX,activePlayerPositionY);
@@ -354,7 +353,7 @@ const canPlayerMove = (eventTarget, tempArray) => {
 }
 
 let activePlayer_Highlight = () => {
-  if(gameSetup.activePlayer == gameSetup.player1) {
+  if(activePlayer == gameSetup.player1) {
     $('#infoBox_player1').css('box-shadow', '1px 1px 10px 10px rgba(8,128,46,1)');
     $('#turnText1').show();
     $('#infoBox_player2').css('box-shadow', 'none');
@@ -371,15 +370,15 @@ activePlayer_Highlight();
 const movePlayer = (eventTarget) => {
   let isItMoving = canPlayerMove(eventTarget, createTempArray(eventTarget));
   let canPlayerReallyMove = createTempArray(eventTarget);
-  if(isItMoving && gameSetup.activePlayer == gameSetup.player1) {
+  if(isItMoving && activePlayer == gameSetup.player1) {
     $('.player1').removeClass('player1');
-    gameSetup.activePlayer.position.x = $(eventTarget).attr('data-x');
-    gameSetup.activePlayer.position.y = $(eventTarget).attr('data-y');
+    activePlayer.position.x = $(eventTarget).attr('data-x');
+    activePlayer.position.y = $(eventTarget).attr('data-y');
     $(eventTarget).addClass('player1');
   } else if (isItMoving && activePlayer == gameSetup.player2) {
     $('.player2').removeClass('player2');
-    gameSetup.activePlayer.position.x = $(eventTarget).attr('data-x');
-    gameSetup.activePlayer.position.y = $(eventTarget).attr('data-y');
+    activePlayer.position.x = $(eventTarget).attr('data-x');
+    activePlayer.position.y = $(eventTarget).attr('data-y');
     $(eventTarget).addClass('player2');
   }
   weaponPickUp(eventTarget);
@@ -389,8 +388,8 @@ const movePlayer = (eventTarget) => {
 
 //Function: did they click within 3 spaces?
 const isWithin3Spaces = (eventTarget) => {
-  let activePlayerPositionX = gameSetup.activePlayer.position.x;
-  let activePlayerPositionY = gameSetup.activePlayer.position.y;
+  let activePlayerPositionX = activePlayer.position.x;
+  let activePlayerPositionY = activePlayer.position.y;
   let squarePositionX = $(eventTarget).attr('data-x');
   let squarePositionY = $(eventTarget).attr('data-y');
   let positionXDiff = Math.abs(activePlayerPositionX - parseInt(squarePositionX));
@@ -439,11 +438,11 @@ const barrierCheck = (tempArray) => { //return boolean
 }
 
 const switchActivePlayer = () => {
-    if(gameSetup.activePlayer == gameSetup.player1) {
-      gameSetup.activePlayer = gameSetup.player2;
+    if(activePlayer == gameSetup.player1) {
+      activePlayer = gameSetup.player2;
       activePlayer_Highlight();
-    } else if (gameSetup.activePlayer === gameSetup.player2) {
-      gameSetup.activePlayer = gameSetup.player1;
+    } else if (activePlayer === gameSetup.player2) {
+      activePlayer = gameSetup.player1;
       activePlayer_Highlight();
     }
 }
@@ -469,7 +468,7 @@ const updatingPlayerStatsBox = (eventTarget) => {
   let newWeapon = $(eventTarget).attr('data-weaponType');
   let newDamage = $(eventTarget).attr('data-weaponDamage');
   //Entering data into the DOM
-  if(gameSetup.activePlayer == gameSetup.player1){
+  if(activePlayer == gameSetup.player1){
     $("#player1_health").text(gameSetup.player1.health);
     $("#player1_weapon").text(newWeapon);
     $("#player1_damage").text(newDamage);
@@ -500,7 +499,7 @@ const weaponImageBackground = (eventTarget, player) => {
 }
 
 const weaponPickUp = (eventTarget) => {
-  if (gameSetup.activePlayer == gameSetup.player1)  {
+  if (activePlayer == gameSetup.player1)  {
     $('#player1').removeAttr('id');
   } else {
     $('#player2').removeAttr('id');
@@ -514,17 +513,17 @@ const weaponPickUp = (eventTarget) => {
   let player2_weapon = $("#player2_weapon").text(gameSetup.player2.weaponType);
 
   if (weaponCheck) {
-    if(gameSetup.activePlayer == gameSetup.player1){
+    if(activePlayer == gameSetup.player1){
       $(eventTarget).attr('id', 'player1');
     } else {
       $(eventTarget).attr('id', 'player2');
     }
-    let oldWeaponName = gameSetup.activePlayer.weaponType
-    let oldWeaponDamage = gameSetup.activePlayer.weaponDamage;
-    let oldWeaponImage = gameSetup.activePlayer.weaponImage;
-    gameSetup.activePlayer.weaponType = newWeapon;
-    gameSetup.activePlayer.weaponDamage = newDamage;
-    weaponImageBackground(eventTarget, gameSetup.activePlayer.name);
+    let oldWeaponName = activePlayer.weaponType
+    let oldWeaponDamage = activePlayer.weaponDamage;
+    let oldWeaponImage = activePlayer.weaponImage;
+    activePlayer.weaponType = newWeapon;
+    activePlayer.weaponDamage = newDamage;
+    weaponImageBackground(eventTarget, activePlayer.name);
     updatingPlayerStatsBox(eventTarget);
     $(eventTarget).attr('data-weaponType', oldWeaponName);
     $(eventTarget).attr('data-weaponDamage', oldWeaponDamage);
@@ -534,9 +533,9 @@ const weaponPickUp = (eventTarget) => {
 
 //Modal Information
 const infoModalBattle = () => {
-  newWeapon = gameSetup.activePlayer.weaponType;
-  newDamage = gameSetup.activePlayer.weaponDamage;
-  if(gameSetup.activePlayer == gameSetup.player1){
+  newWeapon = activePlayer.weaponType;
+  newDamage = activePlayer.weaponDamage;
+  if(activePlayer == gameSetup.player1){
     gameSetup.player2.health = gameSetup.player2.health - newDamage;
     $('.modalOpponentNameDisplay').text(gameSetup.player2.displayName);
     $('.modalWeaponName').text(newWeapon);
@@ -544,7 +543,7 @@ const infoModalBattle = () => {
     $('.modalDamageDisplay').text(newDamage);
     $('.attackerModalImage').attr('id', 'player1');
     $('.defenderModalImage').attr('id', 'player2');
-  } else if (gameSetup.activePlayer == gameSetup.player2){
+  } else if (activePlayer == gameSetup.player2){
     gameSetup.player1.health = gameSetup.player1.health - newDamage;
     $('.modalOpponentNameDisplay').text(gameSetup.player1.displayName);
     $('.modalWeaponName').text(newWeapon);
