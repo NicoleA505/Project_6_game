@@ -6,8 +6,8 @@ body {
 
 .main-header {
   width: 100%;
-  height: 340px;
-  padding: 60px 0px 20px 0px;
+  height: 260px;
+  padding: 20px 0px 20px 0px;
   font-family: 'UnifrakturCook', Arial, sans-serif;
   background-color: rgb(34,139,34, 0.8);
   color: #fff;
@@ -16,15 +16,14 @@ body {
 }
 
 .main-header h1 {
-  font-size: 7rem;
+  font-size: 5rem;
   text-shadow: 5px 5px 4px rgba(0,0,0,0.67);
 }
 
 .main-header-text {
   margin-top: 30px;
   font-family: 'Raleway', sans-serif;
-  font-size: 1.7rem;
-  text-shadow: 2px 2px 1px rgba(0,0,0,0.9);
+  font-size: 1.3rem;
 }
 
 .main-header-text-container {
@@ -32,6 +31,44 @@ body {
   text-align: center;
   width: 60%;
   border-radius: 10px;
+}
+
+.player-stats {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  z-index: -1;
+}
+
+.infoBox {
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 30%;
+  height: 100%;
+  font-size: 1.1rem;
+  padding: 15px;
+  margin: 50px;
+}
+
+.infoBox h3 {
+  font-size: 1.3rem;
+}
+
+.infoBox ul li {
+  list-style: none;
+  margin-left: -30px;
+}
+
+.turnText {
+  color: rgb(34,139,34);
+  font-weight: bold;
+}
+
+.weapon-pic {
+  width: 60px;
+  height: 60px;
+  border: 1px solid #000;
+  margin: 10px auto;
 }
 
 .grid {
@@ -43,8 +80,8 @@ body {
 
 .grid-container {
     display: grid;
-    grid-template-rows: repeat(10, 8vh);
-    grid-template-columns: repeat(10, 8vh);
+    grid-template-rows: repeat(10, 9vh);
+    grid-template-columns: repeat(10, 9vh);
     grid-gap: 1px;
     margin: auto 0;
     padding: 3.8vh;
@@ -69,24 +106,24 @@ body {
   background-color: white;
   border: 1px solid #939393;
   /* Lighter grey = #DCDCDC */
-  border-radius: 10px;
+  border-radius: 7px;
 }
 .barrier{
-  background: url('../images/boulder.png') center/90px 60px no-repeat;
+  background: url('../images/boulder.png') center/50px 35px no-repeat;
 }
 .player1 {
-background: url('../images/helmet.png') center/100px 70px no-repeat;
+background: url('../images/helmet.png') center/60px 40px no-repeat;
 box-shadow: inset 1px 1px 8px 8px rgba(25,194,65,1);
 }
 #player1 {
-  background: url('../images/helmet.png') center/100px 70px no-repeat;
+  background: url('../images/helmet.png') center/60px 40px no-repeat;
 }
 .player2 {
-  background: url('../images/knight.png') center/90px 70px no-repeat;
+  background: url('../images/knight.png') center/50px 40px no-repeat;
   box-shadow: inset 1px 1px 8px 8px rgba(194,25,25,1);
 }
 #player2 {
-  background: url('../images/knight.png') center/90px 70px no-repeat;
+  background: url('../images/knight.png') center/50px 40px no-repeat;
   /* box-shadow:  inset 0 0 10px #000; */
 }
 .weapon {
@@ -109,64 +146,27 @@ box-shadow: inset 1px 1px 8px 8px rgba(25,194,65,1);
 
 [data-weaponType='Spear'] {
   background-image: url('../images/spear.png');
-  background: url('../images/spear.png') center/80px 60px no-repeat;
+  background: url('../images/spear.png') center/50px 40px no-repeat;
 }
 
 [data-weaponType='Archery'] {
-  background: url('../images/archery.png') center/80px 60px no-repeat;
+  background: url('../images/archery.png') center/50px 40px no-repeat;
 }
 
 [data-weaponType='Sword'] {
-  background: url('../images/sword.png') center/80px 60px no-repeat;
+  background: url('../images/sword.png') center/50px 40px no-repeat;
 }
 
 [data-weaponType='Ax'] {
-  background: url('../images/axe.png') center/80px 60px no-repeat;
+  background: url('../images/axe.png') center/50px 40px no-repeat;
 }
 
 [data-weaponType='Pencil'] {
-  background: url('../images/pencil.png') center/80px 60px no-repeat;
-}
-
-.player-stats {
-  position: absolute;
-  width: 100%;
-  top: 320px;
-  left: 0px;
-  display: flex;
-  justify-content: space-between;
-  z-index: -1;
-}
-
-.infoBox {
-  border: 1px solid black;
-  border-radius: 10px;
-  width: 15%;
-  height: 16rem;
-  font-size: 1.3rem;
-  padding: 15px;
-  margin: 50px;
-}
-
-.infoBox ul li {
-  list-style: none;
-  margin-left: -30px;
-}
-
-.turnText {
-  color: rgb(34,139,34);
-  font-weight: bold;
-}
-
-.weapon-pic {
-  width: 80px;
-  height: 80px;
-  border: 1px solid #000;
-  margin: 10px auto;
+  background: url('../images/pencil.png') center/50px 40px no-repeat;
 }
 
 .pencil {
-  background: url('../images/pencil.png') center/80px 60px no-repeat;
+  background: url('../images/pencil.png') center/50px 40px no-repeat;
 }
 
 .modalText {
@@ -224,6 +224,66 @@ box-shadow: inset 1px 1px 8px 8px rgba(25,194,65,1);
 #refresh {
   font-size: 3rem;
   border-radius: 10px;
+}
+
+/* MEDIA QUERIES */
+
+@media only screen and (max-width: 786px) {
+  .main-header {
+    background-color: lightblue;
+    padding: 20px 0px 0px 0px;
+    height: 250px;
+  }
+
+  .main-header h1 {
+    font-size: 4rem;
+  }
+
+  .main-header-text-container {
+    width: 90%;
+  }
+
+  .main-header-text {
+    font-size: 0.9rem;
+    text-shadow: none;
+    font-weight: bold;
+  }
+
+  .player-stats {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .infoBox {
+    order: 1;
+    height: 70%;
+    min-width: 170px;
+    font-size: 1rem;
+  }
+
+  .infoBox h3 {
+    font-size: 1.2rem;
+  }
+
+  #infoBox_player1 {
+    flex-basis: 30%
+  }
+
+  #infoBox_player2 {
+    flex-basis: 30%;
+  }
+
+  .weapon-pic {
+    height: 50px;
+    width: 50px;
+  }
+
+  .grid {
+      order: 2;
+      flex-basis: 100%;
+  }
+
+
 }
 
 
