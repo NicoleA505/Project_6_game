@@ -354,12 +354,12 @@ const canPlayerMove = (eventTarget, tempArray) => {
 
 let activePlayer_Highlight = () => {
   if(activePlayer == gameSetup.player1) {
-    $('#infoBox_player1').css('box-shadow', '1px 1px 10px 10px rgba(8,128,46,1)');
+    $('#infoBox_player1').css('box-shadow', '1px 1px 5px 5px rgba(8,128,46,1)');
     $('#turnText1').show();
     $('#infoBox_player2').css('box-shadow', 'none');
     $('#turnText2').hide();
   } else {
-    $('#infoBox_player2').css('box-shadow', '1px 1px 10px 10px rgba(194,25,25,1)');
+    $('#infoBox_player2').css('box-shadow', '1px 1px 5px 5px rgba(194,25,25,1)');
     $('#turnText2').show();
     $('#infoBox_player1').css('box-shadow', 'none');
     $('#turnText1').hide();
