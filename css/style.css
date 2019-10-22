@@ -207,28 +207,40 @@ box-shadow: inset 1px 1px 5px 5px rgba(25,194,65,1);
 }
 
 #player2_Winner {
-  background: url('../images/knight.png') center/300px 250px no-repeat;
+  background: url('../images/knight.png') center/200px 150px no-repeat;
 }
 
 .winnerSectionHeader {
   font-family: 'Bangers', Arial, cursive;
-  font-size: 5rem;
+  font-size: 3rem;
 }
 
 .winnerSection_PlayerImage {
-  height: 300px;
+  height: 200px;
   width: 100%;
 }
 
 
 #refresh {
-  font-size: 3rem;
+  font-size: 2rem;
   border-radius: 10px;
 }
 
 /* MEDIA QUERIES */
 
 @media only screen and (min-width: 786px) and (max-width: 1100px) {
+
+  .main-header {
+    height: 200px;
+  }
+
+  .main-header h1 {
+    font-size: 3.5rem;
+  }
+
+  .main-header-text {
+    font-size: 1rem;
+  }
 
   .player-stats {
     flex-wrap: wrap;
@@ -243,20 +255,25 @@ box-shadow: inset 1px 1px 5px 5px rgba(25,194,65,1);
   .weapon-pic {
     margin: 10px;
     position: absolute;
-    left: 230px;
+    left: 200px;
     bottom: 40px;
     height: 50px;
     width: 50px;
   }
 
   #infoBox_player1 {
-    flex-basis: 40%;
+    flex-basis: 30%;
     order: 1;
   }
 
   #infoBox_player2 {
-    flex-basis: 40%;
+    flex-basis: 30%;
     order: 1;
+  }
+
+  #winnerSection {
+    order: 2;
+    flex-basis: 100%;
   }
 
   .grid {
@@ -268,7 +285,6 @@ box-shadow: inset 1px 1px 5px 5px rgba(25,194,65,1);
 
 @media only screen and (max-width: 786px) {
   .main-header {
-    background-color: lightblue;
     padding: 20px 0px 0px 0px;
     height: 250px;
   }
@@ -316,6 +332,11 @@ box-shadow: inset 1px 1px 5px 5px rgba(25,194,65,1);
   .weapon-pic {
     height: 50px;
     width: 50px;
+  }
+
+  #winnerSection {
+    order: 2;
+    flex-basis: 100%;
   }
 
   .grid {
