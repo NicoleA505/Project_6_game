@@ -37,26 +37,26 @@ let gameSetup = {
       weaponType:"Sword",
       power: 20,
       img:"../images/sword.png",
-      weapon_url: "url('../images/sword.png')",
+      weapon_url: "url('../Project_6_game/images/sword.png')",
     },
     {
       weaponType:"Ax",
       power: 15,
       img:"../images/axe.png",
-      weapon_url: "url('../images/axe.png')",
+      weapon_url: "url('../Project_6_game/images/axe.png')",
 
     },
     {
       weaponType:"Archery",
       power: 30,
       img:"../images/archery.png",
-      weapon_url: "url('../images/archery.png')",
+      weapon_url: "url('../Project_6_game/images/archery.png')",
     },
     {
       weaponType:"Spear",
       power: 25,
       img:"../images/spear.png",
-      weapon_url: "url('../images/spear.png')",
+      weapon_url: "url('../Project_6_game/images/spear.png')",
     }
   ],
 
