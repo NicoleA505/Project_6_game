@@ -448,8 +448,8 @@ let gameBattle = {
       $('.grid').hide();
       gameBattle.winnerSectionInfo();
       $('#winnerSection').show(); //Modal about Winner
-      // $('#infoBox_player1').hide();
-      // $('#infoBox_player2').hide();
+      $('#infoBox_player1').hide();
+      $('#infoBox_player2').hide();
       $('.pyro').show(); //Modal about Winner
       $('body').css('overflow', 'hidden');
     }

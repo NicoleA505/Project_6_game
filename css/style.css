@@ -109,7 +109,7 @@ body {
   border-radius: 7px;
 }
 .barrier{
-  background: url('../images/boulder.png') center/50px 35px no-repeat;
+  background: url('../images/boulder.png') center/90px 65px no-repeat;
 }
 .player1 {
 background: url('../images/helmet.png') center/60px 40px no-repeat;
@@ -202,7 +202,7 @@ box-shadow: inset 1px 1px 5px 5px rgba(25,194,65,1);
 }
 
 #player1_Winner {
-  background: url('../images/helmet.png') center/300px 250px no-repeat;
+  background: url('../images/helmet.png') center/230px 180px no-repeat;
   margin-left: -20px;
 }
 
