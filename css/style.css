@@ -1,6 +1,6 @@
 
 body {
-  position: relative;
+  /* position: relative; */
 }
 
 
@@ -141,7 +141,7 @@ box-shadow: inset 1px 1px 5px 5px rgba(25,194,65,1);
 
 #modalLongTitle {
   font-family: 'Bangers', Arial, cursive;
-  font-size: 4rem;
+  font-size: 3rem;
 }
 
 [data-weaponType='Spear'] {
@@ -170,7 +170,7 @@ box-shadow: inset 1px 1px 5px 5px rgba(25,194,65,1);
 }
 
 .modalText {
-  font-size: 45px;
+  font-size: 35px;
   font-family: 'Arimo', sans-serif;
 }
 
@@ -228,10 +228,11 @@ box-shadow: inset 1px 1px 5px 5px rgba(25,194,65,1);
 
 /* MEDIA QUERIES */
 
-@media only screen and (min-width: 786px) and (max-width: 1100px) {
+@media only screen and (max-width: 1100px) and (min-width: 786px) {
 
   .main-header {
     height: 200px;
+    width: 100%;
   }
 
   .main-header h1 {
@@ -284,9 +285,12 @@ box-shadow: inset 1px 1px 5px 5px rgba(25,194,65,1);
 }
 
 @media only screen and (max-width: 786px) {
+
+
   .main-header {
     padding: 20px 0px 0px 0px;
     height: 250px;
+    width: 100%;
   }
 
   .main-header h1 {
@@ -294,7 +298,7 @@ box-shadow: inset 1px 1px 5px 5px rgba(25,194,65,1);
   }
 
   .main-header-text-container {
-    width: 90%;
+    width: 100%;
   }
 
   .main-header-text {
@@ -343,10 +347,141 @@ box-shadow: inset 1px 1px 5px 5px rgba(25,194,65,1);
       order: 2;
       flex-basis: 100%;
   }
+}
+
+
+@media (max-width: 500px) {
+
+  .grid-container {
+    grid-template-rows: repeat(10, 6.5vh);
+    grid-template-columns: repeat(10, 6.5vh);
+  }
+
+  .main-header h1 {
+    font-size: 3.5rem;
+  }
+
+  .main-header {
+    height: 220px;
+  }
+
+  .infoBox {
+
+  }
+
+  .player1 {
+  background: url('../images/helmet.png') center/50px 30px no-repeat;
+  }
+
+  .player2 {
+    background: url('../images/knight.png') center/40px 30px no-repeat;
+  }
+
+  .barrier{
+    background: url('../images/boulder.png') center/40px 25px no-repeat;
+  }
+
+  [data-weaponType='Spear'] {
+    background: url('../images/spear.png') center/40px 30px no-repeat;
+  }
+
+  [data-weaponType='Archery'] {
+    background: url('../images/archery.png') center/40px 30px no-repeat;
+  }
+
+  [data-weaponType='Sword'] {
+    background: url('../images/sword.png') center/40px 30px no-repeat;
+  }
+
+  [data-weaponType='Ax'] {
+    background: url('../images/axe.png') center/50px 40px no-repeat;
+  }
+
+  [data-weaponType='Pencil'] {
+    background: url('../images/pencil.png') center/40px 30px no-repeat;
+  }
 
 
 }
 
+@media (max-width: 400px) {
+
+  .grid-container {
+    grid-template-rows: repeat(10, 5vh);
+    grid-template-columns: repeat(10, 5vh);
+    }
+
+  .main-header h1 {
+    font-size: 2.7rem;
+    margin: 0;
+  }
+
+  .main-header-text {
+    font-size: 0.7rem;
+    margin: 15px 0px;
+  }
+
+  .main-header-text-container {
+    width: 90%;
+  }
+
+  .main-header {
+    height: 170px;
+  }
+
+  .infoBox {
+    font-size: 0.7rem;
+    margin: 10px;
+    padding: 10px;
+  }
+
+  .infoBox h3 {
+    font-size: 1rem;
+  }
+
+  .weapon-pic {
+    left: 200px;
+    bottom: 40px;
+    height: 50px;
+    width: 50px;
+  }
+
+  .player1 {
+  background: url('../images/helmet.png') center/50px 30px no-repeat;
+  }
+
+  .player2 {
+    background: url('../images/knight.png') center/40px 30px no-repeat;
+  }
+
+  .barrier{
+    background: url('../images/boulder.png') center/40px 25px no-repeat;
+  }
+
+  [data-weaponType='Spear'] {
+    background: url('../images/spear.png') center/40px 30px no-repeat;
+  }
+
+  [data-weaponType='Archery'] {
+    background: url('../images/archery.png') center/40px 30px no-repeat;
+  }
+
+  [data-weaponType='Sword'] {
+    background: url('../images/sword.png') center/40px 30px no-repeat;
+  }
+
+  [data-weaponType='Ax'] {
+    background: url('../images/axe.png') center/50px 40px no-repeat;
+  }
+
+  [data-weaponType='Pencil'] {
+    background: url('../images/pencil.png') center/40px 30px no-repeat;
+  }
+
+  .pencil {
+    background: url('../images/pencil.png') center/50px 30px no-repeat;
+  }
+}
 
 /* Firework Animation */
 .pyro > .before, .pyro > .after {

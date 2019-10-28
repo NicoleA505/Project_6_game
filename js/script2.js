@@ -195,9 +195,9 @@ let gameMovement = {
   },
 
   canPlayerMove: function(eventTarget, tempArray) {
-    // console.log('tempArray', tempArray);
     let within3Spaces = gameMovement.isWithin3Spaces(eventTarget);
     let thereABarrier = gameMovement.isThereABarrier(eventTarget);
+    console.log(thereABarrier);
     let barrierBetween = gameMovement.barrierCheck(tempArray);
 
     if(within3Spaces && !thereABarrier && barrierBetween) {
@@ -239,6 +239,8 @@ let gameMovement = {
     gameBattle.weaponPickUp(eventTarget);
     gameBattle.canTheyFight();
     gameBattle.fightMode(eventTarget);
+    gameBattle.winner();
+    gameBattle.switchActivePlayer();
   },
 
   isWithin3Spaces: function(eventTarget) {
@@ -269,11 +271,10 @@ let gameMovement = {
     console.log("Is there a barrier?: ", yesBarrier);
     if (yesBarrier) {
       console.log("Can't move there! There's a barrier");
-      // return false;
+      return true;
     }
-    //Else move player
     else {
-      // return true;
+      return false;
     }
   },
 
@@ -444,10 +445,11 @@ let gameBattle = {
   winner: function() {
     if(gameSetup.player1.health <= 0 || gameSetup.player2.health <= 0){
       $('#myModal').hide();
-      console.log("Winner!");
       $('.grid').hide();
       gameBattle.winnerSectionInfo();
       $('#winnerSection').show(); //Modal about Winner
+      // $('#infoBox_player1').hide();
+      // $('#infoBox_player2').hide();
       $('.pyro').show(); //Modal about Winner
       $('body').css('overflow', 'hidden');
     }
@@ -479,8 +481,8 @@ $(document).ready(function (){
   $(document).on('click', '.grid-item', () => {
     let eventTarget = event.target;
     gameMovement.movePlayer(eventTarget);
-    gameBattle.switchActivePlayer();
-    gameBattle.winner();
+    // gameBattle.winner();
+    // gameBattle.switchActivePlayer();
   });
 
   $('#refresh').click(function() {
