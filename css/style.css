@@ -146,15 +146,15 @@ box-shadow: inset 1px 1px 5px 5px rgba(25,194,65,1);
 
 [data-weaponType='Spear'] {
   background-image: url('../images/spear.png');
-  background: url('../images/spear.png') center/50px 40px no-repeat;
+  background: url('../images/spear.png') center/45px 35px no-repeat;
 }
 
 [data-weaponType='Archery'] {
-  background: url('../images/archery.png') center/50px 40px no-repeat;
+  background: url('../images/archery.png') center/45px 38px no-repeat;
 }
 
 [data-weaponType='Sword'] {
-  background: url('../images/sword.png') center/50px 40px no-repeat;
+  background: url('../images/sword.png') center/38px 35px no-repeat;
 }
 
 [data-weaponType='Ax'] {
@@ -162,7 +162,7 @@ box-shadow: inset 1px 1px 5px 5px rgba(25,194,65,1);
 }
 
 [data-weaponType='Pencil'] {
-  background: url('../images/pencil.png') center/50px 40px no-repeat;
+  background: url('../images/pencil.png') center/45px 35px no-repeat;
 }
 
 .pencil {
