@@ -141,7 +141,7 @@ box-shadow: inset 1px 1px 5px 5px rgba(25,194,65,1);
 
 #modalLongTitle {
   font-family: 'Bangers', Arial, cursive;
-  font-size: 4rem;
+  font-size: 3rem;
 }
 
 [data-weaponType='Spear'] {
@@ -170,7 +170,7 @@ box-shadow: inset 1px 1px 5px 5px rgba(25,194,65,1);
 }
 
 .modalText {
-  font-size: 35px;
+  font-size: 30px;
   font-family: 'Arimo', sans-serif;
 }
 
@@ -184,7 +184,7 @@ box-shadow: inset 1px 1px 5px 5px rgba(25,194,65,1);
 }
 
 .battleImage {
-  background: url('../images/battle.png') center/90px 70px no-repeat;
+  background: url('../images/battle.png') center/80px 60px no-repeat;
 }
 
 .defenderModalImage {
