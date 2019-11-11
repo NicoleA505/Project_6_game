@@ -7,8 +7,13 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <!-- BOOTSTRAP LINKS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
+    <div class="pyro">
+      <div class="before"></div>
+      <div class="after"></div>
+    </div>
     <div class="text-center main-header">
       <div class="main-header-text-container">
         <h1>Battle of Knights!</h1>
@@ -17,14 +22,9 @@
         </p>
       </div>
     </div>
-    <section class="grid text-center">
-      <div class="grid-container">
-      <!--Gameboard here-->
-      </div>
-    </section>
     <section class="player-stats">
-      <div class="infoBox">
-        <h3>Player 1</h3>
+      <div id="infoBox_player1" class="infoBox">
+        <h3>Player 1<span id="turnText1" class="turnText">'s Turn</span></h3>
         <ul>
           <li>HP: <span id="player1_health"></span></li>
           <li>Weapon: <span id="player1_weapon"></span>
@@ -35,8 +35,14 @@
           <li>Damage Power: <span id="player1_damage"></span></li>
         </ul>
       </div>
-      <div class="infoBox">
-        <h3>Player 2</h3>
+
+      <section class="grid text-center">
+        <div class="grid-container">
+        <!--Gameboard here-->
+        </div>
+      </section>
+      <div id="infoBox_player2" class="infoBox">
+        <h3>Player 2<span id="turnText2" class="turnText">'s Turn</span></h3>
         <ul>
           <li>HP: <span id="player2_health"></span></li>
           <li>Weapon: <span id="player2_weapon"></span>
@@ -47,12 +53,17 @@
           <li>Damage Power: <span id="player2_damage"></span></li>
         </ul>
       </div>
+      <!--Winner Section-->
+      <section id="winnerSection">
+        <h1 class="winnerSectionHeader">Congratulations! <br /><span class="winnerModalName"></span><br />You are the Winner!!</h1>
+        <div class="winnerSection_PlayerImage"></div>
+        <button type="button" id="refresh" class="btn btn-lg btn-outline-success">Play Again?</button>
+      </section>
     </section>
 
-    <!--Winner Section-->
-    <section id="winnerSection">
-      <h1 class="winnerSectionHeader">Congratulations! <br /><span class="winnerModalName"></span><br />You are the Winner!!</h1>
-    </section>
+
+
+
 
     <!--Modal Bootstrap-->
     <!--Alert Modals-->
