@@ -446,6 +446,7 @@ let gameBattle = {
     if(gameSetup.player1.health <= 0 || gameSetup.player2.health <= 0){
       $('#myModal').hide();
       $('.grid').hide();
+      $('.main-header').hide();
       gameBattle.winnerSectionInfo();
       $('#winnerSection').show(); //Modal about Winner
       $('#infoBox_player1').hide();
