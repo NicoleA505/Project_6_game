@@ -457,6 +457,7 @@ const winner = () => {
     $('#myModal').hide();
     console.log("Winner!");
     $('.grid').hide();
+    $('.main-header').hide();
     winnerSectionInfo();
     $('#winnerSection').show(); //Modal about Winner
   }
