@@ -447,6 +447,7 @@ let gameBattle = {
       $('#myModal').hide();
       $('.grid').hide();
       $('.main-header').hide();
+      $('.main-header-text-container').hide();
       gameBattle.winnerSectionInfo();
       $('#winnerSection').show(); //Modal about Winner
       $('#infoBox_player1').hide();
