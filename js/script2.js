@@ -392,16 +392,16 @@ let gameBattle = {
       $('.modalWeaponName').text(newWeapon);
       $('.modalOpponentHealthDisplay').text(gameSetup.player2.health);
       $('.modalDamageDisplay').text(newDamage);
-      $('.attackerModalImage').attr('id', 'player1');
-      $('.defenderModalImage').attr('id', 'player2');
+      $('.attackerModalImage').attr('id', 'player1Modal');
+      $('.defenderModalImage').attr('id', 'player2Modal');
     } else if (activePlayer == gameSetup.player2){
       gameSetup.player1.health = gameSetup.player1.health - newDamage;
       $('.modalOpponentNameDisplay').text(gameSetup.player1.displayName);
       $('.modalWeaponName').text(newWeapon);
       $('.modalOpponentHealthDisplay').text(gameSetup.player1.health);
       $('.modalDamageDisplay').text(newDamage);
-      $('.attackerModalImage').attr('id', 'player2');
-      $('.defenderModalImage').attr('id', 'player1');
+      $('.attackerModalImage').attr('id', 'player2Modal');
+      $('.defenderModalImage').attr('id', 'player1Modal');
     }
   },
 
