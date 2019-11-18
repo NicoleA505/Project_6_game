@@ -105,6 +105,15 @@ body {
   margin: 10px auto;
 }
 
+#player1_weaponImage {
+  background-size: contain;
+}
+
+#player2_weaponImage {
+  background-size: contain;
+}
+
+
 .grid {
   display: flex;
   flex-direction: row;
