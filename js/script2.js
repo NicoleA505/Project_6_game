@@ -341,10 +341,10 @@ let gameBattle = {
     let newWeapon = $(eventTarget).attr('data-weaponType');
     let url = $(eventTarget).attr('data-weapon_url')
     if ($(eventTarget).hasClass('weapon') && $(eventTarget).hasClass('player1')){
-        player1_weaponImage.css('background-image', $(eventTarget).attr('data-weapon_url')).css('backgroundRepeat', 'no-repeat').css('backgroundPosition', 'center');
+        player1_weaponImage.css('background-image', $(eventTarget).attr('data-weapon_url')).css('backgroundRepeat', 'no-repeat').css('backgroundPosition', 'center').css('backgroundSize', 'contain');
         player1_weaponImage.removeClass('pencil');
     } else if ($(eventTarget).hasClass('weapon') && $(eventTarget).hasClass('player2')){
-        player2_weaponImage.css('background-image', $(eventTarget).attr('data-weapon_url')).css('backgroundRepeat', 'no-repeat').css('backgroundPosition', 'center');
+        player2_weaponImage.css('background-image', $(eventTarget).attr('data-weapon_url')).css('backgroundRepeat', 'no-repeat').css('backgroundPosition', 'center').css('backgroundSize', 'contain');
         player2_weaponImage.removeClass('pencil');
       }
   },
