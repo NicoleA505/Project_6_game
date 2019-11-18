@@ -1,6 +1,8 @@
 $('#winnerSection').hide(); //Hide the Winner section until the end of the game
 $('.pyro').hide(); //Hide the fireworks until the end of the game
-
+$(window).on('load',function(){
+        $('#instructionsModal').modal('show');
+    });
 /*
 OBJECTS
 */

@@ -14,14 +14,47 @@
       <div class="before"></div>
       <div class="after"></div>
     </div>
+
+    <!-- Instructions Modal -->
+    <div class="modal fade" id="instructionsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header main-header-text-container main-header-modal">
+            <h1 class="modal-title col-12 text-center">Welcome! to Battle of Knights!</h1>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h3>Instructions:</h3>
+            <p class="main-header-text text-center">Pick up any of the following weapons and try to win the battle against your opponent!<br />Note: Each player begins with a Pencil for a weapon.</p>
+            <div>
+              <ul class="modalImageWeapons">
+                <li><img src="images/pencil.png"/></li>
+                <li><img src="images/archery.png"/></li>
+                <li><img src="images/axe.png"/></li>
+                <li><img src="images/spear.png"/></li>
+                <li><img src="images/sword.png"/></li>
+              </ul>
+            </div>
+            <p class="main-header-text">Each weapon has a different amount of power that will inflict a certain damage to your opponent.</p>
+            <p class="main-header-text"><b>Rules:</b> You can only move vertically or horizontally, but <u>not</u> diagonally.</p>
+            <p class="main-header-text">There are boulders throughout the map. You cannot move on them and you cannot move passed them.</p>
+            <div class="boulderModalImg">
+              <img src="images/boulder.png"/>
+            </div>
+            <p class="main-header-text">To attack your opponent, move into a square directly next to them and it will activate the fighting mode!</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Got it, Let's Play!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="text-center main-header">
       <div class="main-header-text-container">
         <h1>Battle of Knights!</h1>
-        <p class="main-header-text">Pick up the weapons and try to win the battle against your opponent!
-        <br /> <u>Rules:</u> You can't jump over barriers and you can only move vertically or horizontally!
-        <br />
-        You can attack your opponent by moving into a square next to them.
-        </p>
       </div>
     </div>
     <section class="player-stats">
