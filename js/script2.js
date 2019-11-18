@@ -18,7 +18,7 @@ let gameSetup = {
     },
     weaponType: "Pencil",
     weaponDamage: 5,
-    weaponImage:"../images/pencil.png",
+    weapon_url:"../images/pencil.png",
   },
 
   player2: {
@@ -31,7 +31,7 @@ let gameSetup = {
     },
     weaponType: "Pencil",
     weaponDamage: 5,
-    weaponImage:"../images/pencil.png",
+    weapon_url:"../images/pencil.png",
   },
 
   weapons: [
@@ -357,8 +357,6 @@ let gameBattle = {
     }
     let weaponCheck = gameBattle.isWeaponPresent(eventTarget);
     let newWeapon = $(eventTarget).attr('data-weaponType');
-    // let newWeapon_img = `url(${$(eventTarget).attr('data-weaponType')})`;
-    // console.log(newWeapon_img);
     let newDamage = $(eventTarget).attr('data-weaponDamage');
     let player1_weapon = $("#player1_weapon").text(gameSetup.player1.weaponType);
     let player2_weapon = $("#player2_weapon").text(gameSetup.player2.weaponType);
@@ -371,14 +369,14 @@ let gameBattle = {
       }
       let oldWeaponName = activePlayer.weaponType
       let oldWeaponDamage = activePlayer.weaponDamage;
-      let oldWeaponImage = activePlayer.weaponImage;
+      let oldWeaponImage = activePlayer.weapon_url;
       activePlayer.weaponType = newWeapon;
       activePlayer.weaponDamage = newDamage;
       gameBattle.weaponImageBackground(eventTarget, activePlayer.name);
       gameBattle.updatingPlayerStatsBox(eventTarget);
       $(eventTarget).attr('data-weaponType', oldWeaponName);
       $(eventTarget).attr('data-weaponDamage', oldWeaponDamage);
-      $(eventTarget).attr('data-img', oldWeaponImage);
+      $(eventTarget).attr('data-weapon_url', oldWeaponImage);
     }
   },
 
